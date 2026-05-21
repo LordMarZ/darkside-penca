@@ -1,0 +1,72 @@
+.main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
+
+.header { text-align: center; margin-bottom: 20px; }
+.title { font-family: 'Bebas Neue', Impact, cursive; font-size: 32px; letter-spacing: 4px; color: var(--text); }
+.date { font-size: 12px; color: var(--red); letter-spacing: 2px; font-weight: 700; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: var(--muted); }
+
+.scoreLegend { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+.scorePill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--muted); }
+.scorePill strong { color: var(--gold2); }
+
+.resultBox { border-radius: 10px; padding: 24px; text-align: center; margin-bottom: 24px; border: 1px solid; }
+.resultWin { background: rgba(26, 122, 26, 0.15); border-color: var(--green); }
+.resultMiss { background: var(--card); border-color: var(--border); }
+.resultScore { font-family: 'Bebas Neue', Impact, cursive; font-size: 56px; color: var(--text); line-height: 1; }
+.resultMsg { font-family: 'Bebas Neue', Impact, cursive; font-size: 22px; letter-spacing: 3px; color: var(--gold2); margin-top: 4px; }
+.resultPts { font-size: 16px; font-weight: 700; color: var(--green2); letter-spacing: 1px; margin-top: 8px; }
+
+.questions { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+
+.qCard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+
+.qMeta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.qNum { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; color: var(--red); width: 24px; }
+.qCat { font-size: 10px; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; background: var(--red-dim); border: 1px solid var(--border); border-radius: 10px; padding: 2px 8px; }
+
+.qText { font-size: 16px; font-weight: 600; margin-bottom: 12px; line-height: 1.4; }
+
+.opts { display: flex; flex-direction: column; gap: 6px; }
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--dark);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+
+.opt:hover:not(:disabled) { border-color: var(--red3); background: var(--card2); }
+.optSelected { border-color: var(--red) !important; background: var(--red-dim) !important; }
+.optCorrect { border-color: var(--green) !important; background: rgba(26,122,26,0.2) !important; color: var(--green2) !important; }
+.optWrong { border-color: #550000 !important; background: rgba(100,0,0,0.2) !important; color: var(--muted) !important; }
+
+.optLetter {
+  width: 22px; height: 22px;
+  background: var(--border-light);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  flex-shrink: 0;
+}
+
+.submitBtn {
+  background: var(--red3);
+  border: 1px solid var(--red);
+  color: #fff;
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 20px;
+  letter-spacing: 3px;
+  padding: 14px;
+  border-radius: 6px;
+  width: 100%;
+  transition: background 0.2s;
+}
+.submitBtn:hover { background: var(--red); }

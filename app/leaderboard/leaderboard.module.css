@@ -1,0 +1,54 @@
+.main { max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; }
+
+.pageTitle {
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: var(--red);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+
+.header {
+  display: grid;
+  grid-template-columns: 44px 1fr 80px 80px;
+  padding: 10px 16px;
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  gap: 8px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 44px 1fr 80px 80px;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+  transition: background 0.15s;
+}
+.row:last-child { border-bottom: none; }
+.row:hover { background: var(--card2); }
+.row.you { background: var(--red-dim); }
+
+.rank { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; color: var(--muted); }
+.g1 { color: var(--gold2); }
+.g2 { color: #c0c0c0; }
+.g3 { color: #cd7f32; }
+
+.userInfo { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+.avatarFb { width: 32px; height: 32px; border-radius: 50%; background: var(--red3); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+.username { font-size: 15px; font-weight: 600; }
+.youTag { font-size: 10px; color: var(--red); letter-spacing: 1px; font-weight: 700; }
+
+.streak { font-family: monospace; font-size: 14px; color: var(--gold); text-align: center; }
+.pts { font-family: 'Bebas Neue', Impact, cursive; font-size: 24px; text-align: right; }

@@ -1,0 +1,67 @@
+.bar {
+  background: #080808;
+  border-bottom: 1px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 32px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #333;
+  font-family: 'Bebas Neue', Impact, cursive;
+}
+
+.apps {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.app:not(.active) {
+  color: #444;
+}
+
+.app:not(.active):hover {
+  background: #141414;
+  border-color: #2a2a2a;
+  color: #888;
+}
+
+.active {
+  background: #140000;
+  border-color: #2a0a0a;
+  color: var(--red);
+}
+
+.appIcon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.appLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-family: 'Bebas Neue', Impact, cursive;
+  line-height: 1;
+}

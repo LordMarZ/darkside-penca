@@ -1,0 +1,123 @@
+.nav {
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
+  position: sticky;
+  top: 32px; /* below MultiverseBar */
+  z-index: 100;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  font-size: 22px;
+}
+
+.logoText {
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.logoSub {
+  font-size: 8px;
+  color: var(--red);
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+}
+
+.tab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tab:hover {
+  color: var(--text);
+  background: var(--card);
+}
+
+.tab.active {
+  color: var(--text);
+  background: var(--red-dim);
+  border: 1px solid var(--border);
+}
+
+.tabIcon {
+  font-size: 13px;
+}
+
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.logoutBtn {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.logoutBtn:hover {
+  color: var(--red);
+  border-color: var(--red3);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .nav {
+    padding: 0 12px;
+    top: 32px;
+  }
+  .logoSub { display: none; }
+  .logoText { font-size: 14px; }
+  .tab { padding: 6px 8px; font-size: 9px; gap: 3px; }
+  .tabIcon { font-size: 14px; }
+  .logoutBtn { display: none; }
+}
