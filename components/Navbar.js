@@ -7,7 +7,7 @@ import styles from './Navbar.module.css'
 
 const UNIVERSE_APPS = [
   { id: 'penca', label: 'PENCA MUNDIAL', sub: 'Pronósticos 2026', icon: '⚽', href: null },
-  { id: 'cuponera', label: 'CUPONERA', sub: 'Café Darkside', icon: '☕', href: process.env.NEXT_PUBLIC_CUPONERA_URL || '#' },
+  { id: 'cuponera', label: 'CUPONERA', sub: 'Café Darkside', icon: '☕', href: 'https://darkside-cafe.vercel.app/tarjeta' },
   { id: 'duomity', label: 'DUOMITY GEEK', sub: 'Quiz de universos', icon: '🎮', href: process.env.NEXT_PUBLIC_DUOMITY_URL || '#' },
 ]
 
@@ -33,7 +33,7 @@ export default function Navbar({ user }) {
     <>
       <nav className={styles.nav}>
         <div className={styles.logo}>
-        <img src="/logo.png" alt="Darkside Bros" className={styles.logoImg} />
+        <img src="/Logo.png" alt="Darkside Bros" className={styles.logoImg} />
         <span className={styles.logoSub}>PENCA MUNDIAL 2026</span>
       </div>
 

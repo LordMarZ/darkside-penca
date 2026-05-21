@@ -6,10 +6,10 @@ export default function Footer() {
       <div className={styles.inner}>
 
         <div className={styles.brand}>
-          <img src="/logo.png" alt="Darkside Bros" className={styles.footerLogo} />
+          <img src="/Logo.png" alt="Darkside Bros" className={styles.logoImg} />
           <div className={styles.brandSub}>Café · Coleccionables · Comunidad</div>
     </div>   
-    
+
         <div className={styles.col}>
           <div className={styles.colTitle}>UBICACIÓN</div>
           <a href="https://maps.google.com/?q=Soriano+1062+Montevideo" target="_blank" rel="noopener noreferrer" className={styles.link}>
