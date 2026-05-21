@@ -1,4 +1,5 @@
 'use client'
+import Footer from '../../components/Footer'
 import { useEffect, useState } from 'react'
 import { createClient } from '../../lib/supabase'
 import { useRouter } from 'next/navigation'
@@ -66,6 +67,7 @@ export default function LeaderboardPage() {
           ))}
         </div>
       </main>
+      <Footer />
     </>
   )
 }

@@ -1,4 +1,5 @@
 'use client'
+import Footer from '../../components/Footer'
 import { useEffect, useState } from 'react'
 import { createClient } from '../../lib/supabase'
 import { useRouter } from 'next/navigation'
@@ -111,6 +112,7 @@ export default function FixturePage() {
       {modalMatch && (
         <PredictModal match={modalMatch} existing={predictions[modalMatch.id]} onSave={savePrediction} onClose={() => setModalMatch(null)} />
       )}
+      <Footer />
     </>
   )
 }
