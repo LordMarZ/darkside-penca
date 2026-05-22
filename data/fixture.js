@@ -3,18 +3,18 @@
 // Fuente: FIFA / ESPN / bracketmundial2026.com
 
 export const GROUPS = {
-  A: { teams: ['México', 'Sudáfrica', 'Corea del Sur', 'Chequia'], flags: ['🇲🇽','🇿🇦','🇰🇷','🇨🇿'] },
-  B: { teams: ['Canadá', 'Bosnia y Herzegovina', 'Qatar', 'Suiza'], flags: ['🇨🇦','🇧🇦','🇶🇦','🇨🇭'] },
-  C: { teams: ['Brasil', 'Marruecos', 'Haití', 'Escocia'], flags: ['🇧🇷','🇲🇦','🇭🇹','🏴󠁧󠁢󠁳󠁣󠁴󠁿'] },
-  D: { teams: ['Estados Unidos', 'Paraguay', 'Australia', 'Turquía'], flags: ['🇺🇸','🇵🇾','🇦🇺','🇹🇷'] },
-  E: { teams: ['Alemania', 'Curazao', 'Costa de Marfil', 'Ecuador'], flags: ['🇩🇪','🇨🇼','🇨🇮','🇪🇨'] },
-  F: { teams: ['Países Bajos', 'Japón', 'Túnez', 'Suecia'], flags: ['🇳🇱','🇯🇵','🇹🇳','🇸🇪'] },
-  G: { teams: ['Bélgica', 'Egipto', 'Irán', 'Nueva Zelanda'], flags: ['🇧🇪','🇪🇬','🇮🇷','🇳🇿'] },
-  H: { teams: ['España', 'Cabo Verde', 'Arabia Saudita', 'Uruguay'], flags: ['🇪🇸','🇨🇻','🇸🇦','🇺🇾'] },
-  I: { teams: ['Francia', 'Senegal', 'Noruega', 'Iraq'], flags: ['🇫🇷','🇸🇳','🇳🇴','🇮🇶'] },
-  J: { teams: ['Argentina', 'Argelia', 'Austria', 'Jordania'], flags: ['🇦🇷','🇩🇿','🇦🇹','🇯🇴'] },
-  K: { teams: ['Portugal', 'RD Congo', 'Uzbekistán', 'Colombia'], flags: ['🇵🇹','🇨🇩','🇺🇿','🇨🇴'] },
-  L: { teams: ['Inglaterra', 'Croacia', 'Ghana', 'Panamá'], flags: ['🏴󠁧󠁢󠁥󠁮󠁧󠁿','🇭🇷','🇬🇭','🇵🇦'] },
+  A: ['México', 'Sudáfrica', 'Corea del Sur', 'Chequia'],
+  B: ['Canadá', 'Bosnia y Herzegovina', 'Qatar', 'Suiza'],
+  C: ['Brasil', 'Marruecos', 'Haití', 'Escocia'],
+  D: ['Estados Unidos', 'Paraguay', 'Australia', 'Turquía'],
+  E: ['Alemania', 'Curazao', 'Costa de Marfil', 'Ecuador'],
+  F: ['Países Bajos', 'Japón', 'Túnez', 'Suecia'],
+  G: ['Bélgica', 'Egipto', 'Irán', 'Nueva Zelanda'],
+  H: ['España', 'Cabo Verde', 'Arabia Saudita', 'Uruguay'],
+  I: ['Francia', 'Senegal', 'Noruega', 'Iraq'],
+  J: ['Argentina', 'Argelia', 'Austria', 'Jordania'],
+  K: ['Portugal', 'RD Congo', 'Uzbekistán', 'Colombia'],
+  L: ['Inglaterra', 'Croacia', 'Ghana', 'Panamá'],
 }
 
 export const MATCHES = [
