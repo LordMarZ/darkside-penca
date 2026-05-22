@@ -2,19 +2,27 @@
 // Horarios en hora Uruguay (UY = ET + 1)
 // Fuente: FIFA / ESPN / bracketmundial2026.com
 
+export const PHASES = {
+  groups: 'FASE DE GRUPOS',
+  r16: 'OCTAVOS DE FINAL',
+  qf: 'CUARTOS DE FINAL',
+  sf: 'SEMIFINALES',
+  final: 'FINAL',
+}
+
 export const GROUPS = {
-  A: ['México', 'Sudáfrica', 'Corea del Sur', 'Chequia'],
-  B: ['Canadá', 'Bosnia y Herzegovina', 'Qatar', 'Suiza'],
-  C: ['Brasil', 'Marruecos', 'Haití', 'Escocia'],
-  D: ['Estados Unidos', 'Paraguay', 'Australia', 'Turquía'],
-  E: ['Alemania', 'Curazao', 'Costa de Marfil', 'Ecuador'],
-  F: ['Países Bajos', 'Japón', 'Túnez', 'Suecia'],
-  G: ['Bélgica', 'Egipto', 'Irán', 'Nueva Zelanda'],
-  H: ['España', 'Cabo Verde', 'Arabia Saudita', 'Uruguay'],
-  I: ['Francia', 'Senegal', 'Noruega', 'Iraq'],
-  J: ['Argentina', 'Argelia', 'Austria', 'Jordania'],
-  K: ['Portugal', 'RD Congo', 'Uzbekistán', 'Colombia'],
-  L: ['Inglaterra', 'Croacia', 'Ghana', 'Panamá'],
+  A: { teams: [{flag:'🇲🇽',name:'México'},{flag:'🇿🇦',name:'Sudáfrica'},{flag:'🇰🇷',name:'Corea del Sur'},{flag:'🇨🇿',name:'Chequia'}] },
+  B: { teams: [{flag:'🇨🇦',name:'Canadá'},{flag:'🇧🇦',name:'Bosnia y Herzegovina'},{flag:'🇶🇦',name:'Qatar'},{flag:'🇨🇭',name:'Suiza'}] },
+  C: { teams: [{flag:'🇧🇷',name:'Brasil'},{flag:'🇲🇦',name:'Marruecos'},{flag:'🇭🇹',name:'Haití'},{flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Escocia'}] },
+  D: { teams: [{flag:'🇺🇸',name:'Estados Unidos'},{flag:'🇵🇾',name:'Paraguay'},{flag:'🇦🇺',name:'Australia'},{flag:'🇹🇷',name:'Turquía'}] },
+  E: { teams: [{flag:'🇩🇪',name:'Alemania'},{flag:'🇨🇼',name:'Curazao'},{flag:'🇨🇮',name:'Costa de Marfil'},{flag:'🇪🇨',name:'Ecuador'}] },
+  F: { teams: [{flag:'🇳🇱',name:'Países Bajos'},{flag:'🇯🇵',name:'Japón'},{flag:'🇹🇳',name:'Túnez'},{flag:'🇸🇪',name:'Suecia'}] },
+  G: { teams: [{flag:'🇧🇪',name:'Bélgica'},{flag:'🇪🇬',name:'Egipto'},{flag:'🇮🇷',name:'Irán'},{flag:'🇳🇿',name:'Nueva Zelanda'}] },
+  H: { teams: [{flag:'🇪🇸',name:'España'},{flag:'🇨🇻',name:'Cabo Verde'},{flag:'🇸🇦',name:'Arabia Saudita'},{flag:'🇺🇾',name:'Uruguay'}] },
+  I: { teams: [{flag:'🇫🇷',name:'Francia'},{flag:'🇸🇳',name:'Senegal'},{flag:'🇳🇴',name:'Noruega'},{flag:'🇮🇶',name:'Iraq'}] },
+  J: { teams: [{flag:'🇦🇷',name:'Argentina'},{flag:'🇩🇿',name:'Argelia'},{flag:'🇦🇹',name:'Austria'},{flag:'🇯🇴',name:'Jordania'}] },
+  K: { teams: [{flag:'🇵🇹',name:'Portugal'},{flag:'🇨🇩',name:'RD Congo'},{flag:'🇺🇿',name:'Uzbekistán'},{flag:'🇨🇴',name:'Colombia'}] },
+  L: { teams: [{flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',name:'Inglaterra'},{flag:'🇭🇷',name:'Croacia'},{flag:'🇬🇭',name:'Ghana'},{flag:'🇵🇦',name:'Panamá'}] },
 }
 
 export const MATCHES = [
