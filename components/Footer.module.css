@@ -17,10 +17,12 @@
 .brand {}
 
 .footerLogo {
-  height: 60px;
+  height: 50px;
   width: auto;
+  max-width: 200px;
   object-fit: contain;
   margin-bottom: 10px;
+  display: block;
 }
 
 .brandSub {
