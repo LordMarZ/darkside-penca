@@ -173,3 +173,50 @@
   background: var(--gold);
   color: #000;
 }
+
+/* --- por fecha --- */
+.dayBlock {
+  margin-bottom: 28px;
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dayTitle {
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--text);
+}
+
+.dayMeta {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.loadMoreBtn {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 14px;
+  letter-spacing: 2px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 32px;
+}
+
+.loadMoreBtn:hover {
+  color: var(--text);
+  border-color: var(--muted2);
+}
