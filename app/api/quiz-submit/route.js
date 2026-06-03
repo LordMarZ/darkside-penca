@@ -16,7 +16,6 @@ export async function POST(request) {
 
   const { quiz_day, correct, total, answers } = await request.json()
 
-  // Verificar que no lo haya hecho ya
   const { data: existing } = await supabase
     .from('quiz_attempts')
     .select('id')
@@ -35,11 +34,6 @@ export async function POST(request) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  if (pts > 0) {
-    const { data: profile } = await supabase.from('profiles').select('total_pts').eq('id', session.user.id).single()
-    await supabase.from('profiles').update({ total_pts: (profile?.total_pts ?? 0) + pts }).eq('id', session.user.id)
-    await supabase.from('points_log').insert({ user_id: session.user.id, pts, reason: `Quiz Día ${quiz_day}: ${correct}/${total} correctas` })
-  }
-
+  // Los puntos del quiz son solo para el quiz — no afectan el ranking de la penca
   return NextResponse.json({ attempt, pts })
 }
