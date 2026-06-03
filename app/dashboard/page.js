@@ -10,24 +10,6 @@ import ChampionPicker from '../../components/ChampionPicker'
 import { MATCHES } from '../../data/fixture'
 import styles from './dashboard.module.css'
 
-const DAY_NAMES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
-const MONTH_NAMES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
-
-function formatDate(dateStr) {
-  const d = new Date(dateStr + 'T12:00:00')
-  return `${DAY_NAMES[d.getDay()]} ${d.getDate()} ${MONTH_NAMES[d.getMonth()]}`
-}
-
-function getUpcomingDates(today) {
-  // Obtener fechas únicas de partidos a partir de hoy, ordenadas
-  const dates = [...new Set(
-    MATCHES
-      .filter(m => m.phase === 'groups' && m.date >= today)
-      .map(m => m.date)
-  )].sort()
-  return dates
-}
-
 export default function Dashboard() {
   const supabase = createClient()
   const router = useRouter()
@@ -39,11 +21,9 @@ export default function Dashboard() {
   const [showChampionPicker, setShowChampionPicker] = useState(false)
   const [loading, setLoading] = useState(true)
   const [loginBonus, setLoginBonus] = useState(null)
-  const [visibleDates, setVisibleDates] = useState(3)
 
   const today = new Date().toISOString().slice(0, 10)
-  const upcomingDates = getUpcomingDates(today)
-  const shownDates = upcomingDates.slice(0, visibleDates)
+  const upcomingMatches = MATCHES.filter(m => m.phase === 'groups').slice(0, 8)
   const todayMatch = MATCHES.find(m => m.date === today) || MATCHES[0]
 
   useEffect(() => {
@@ -65,9 +45,12 @@ export default function Dashboard() {
       setLeaderboard(lbRes.data || [])
       setLoading(false)
 
+      // Registrar login streak (sin bloquear la carga)
       fetch('/api/login-streak', { method: 'POST' })
         .then(r => r.json())
-        .then(d => { if (d.bonus > 0) setLoginBonus(d) })
+        .then(d => {
+          if (d.bonus > 0) setLoginBonus(d)
+        })
         .catch(() => {})
     }
     load()
@@ -106,6 +89,7 @@ export default function Dashboard() {
       <Navbar user={user} />
       <main className={styles.main}>
 
+        {/* Login bonus toast */}
         {loginBonus && (
           <div className={styles.bonusToast} onClick={() => setLoginBonus(null)}>
             🔥 Racha de {loginBonus.streak} dias seguidos · <strong>+{loginBonus.bonus} pt</strong>
@@ -132,7 +116,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Champion Picker */}
+        {/* Champion Picker promo */}
         <div className={styles.championPromo}>
           <div className={styles.championLeft}>
             <div className={styles.championTitle}>🏆 PRONÓSTICO CAMPEÓN</div>
@@ -147,7 +131,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Partido destacado */}
+        {/* Today */}
         <div className={styles.sectionTitle}>PARTIDO DESTACADO</div>
         <div className={styles.todayBox}>
           <div className={styles.todayBadge}>HOY</div>
@@ -176,46 +160,16 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Partidos por fecha */}
-        <div className={styles.sectionTitle}>PRÓXIMOS PARTIDOS</div>
-
-        {shownDates.length === 0 ? (
-          <div style={{ color: 'var(--muted)', fontSize: 13, textAlign: 'center', padding: 24 }}>
-            No hay más partidos de grupos pendientes
-          </div>
-        ) : (
-          shownDates.map(date => {
-            const dayMatches = MATCHES.filter(m => m.date === date && m.phase === 'groups')
-            const dayPredCount = dayMatches.filter(m => predictions[m.id]).length
-
-            return (
-              <div key={date} className={styles.dayBlock}>
-                <div className={styles.dayHeader}>
-                  <div className={styles.dayTitle}>
-                    {date === today ? '🔴 HOY —' : ''} {formatDate(date)}
-                  </div>
-                  <div className={styles.dayMeta}>
-                    {dayMatches.length} partidos · {dayPredCount}/{dayMatches.length} pronosticados
-                  </div>
-                </div>
-                <div className={styles.matchList}>
-                  {dayMatches.map(m => (
-                    <MatchCard key={m.id} match={m} prediction={predictions[m.id]} onPredict={setModalMatch} />
-                  ))}
-                </div>
-              </div>
-            )
-          })
-        )}
-
-        {visibleDates < upcomingDates.length && (
-          <button className={styles.loadMoreBtn} onClick={() => setVisibleDates(v => v + 3)}>
-            VER MÁS FECHAS ({upcomingDates.length - visibleDates} restantes)
-          </button>
-        )}
+        {/* Upcoming */}
+        <div className={styles.sectionTitle}>PROXIMOS PARTIDOS</div>
+        <div className={styles.matchList}>
+          {upcomingMatches.map(m => (
+            <MatchCard key={m.id} match={m} prediction={predictions[m.id]} onPredict={setModalMatch} />
+          ))}
+        </div>
 
         {/* Mini leaderboard */}
-        <div className={styles.sectionTitle} style={{ marginTop: 32 }}>TOP 5 RANKING</div>
+        <div className={styles.sectionTitle}>TOP 5 RANKING</div>
         <div className={styles.lbCard}>
           {leaderboard.map((u, i) => (
             <div key={u.id} className={`${styles.lbRow} ${u.id === user?.id ? styles.lbYou : ''}`}>

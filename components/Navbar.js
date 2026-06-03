@@ -6,9 +6,11 @@ import { createClient } from '../lib/supabase'
 import styles from './Navbar.module.css'
 
 const UNIVERSE_APPS = [
-  { id: 'penca', label: 'PENCA MUNDIAL', sub: 'Pronósticos 2026', icon: '⚽', href: null },
-  { id: 'cuponera', label: 'CUPONERA', sub: 'Café Darkside', icon: '☕', href: 'https://darkside-cafe.vercel.app/tarjeta' },
-  { id: 'duomity', label: 'DUOMITY GEEK', sub: 'Quiz de universos', icon: '🎮', href: process.env.NEXT_PUBLIC_DUOMITY_URL || '#' },
+  { id: 'cuponera',    label: 'CUPONERA',     sub: 'Fidelidad & sellos',  icon: '☕', href: process.env.NEXT_PUBLIC_CUPONERA_URL || '#' },
+  { id: 'penca',       label: 'PENCA',         sub: 'Pronósticos 2026',    icon: '⚽', href: null },
+  { id: 'duomity',     label: 'DUOMITY',       sub: 'Torneos & trivias',   icon: '🎮', href: process.env.NEXT_PUBLIC_DUOMITY_URL || '#' },
+  { id: 'geek',        label: 'DUOMITY GEEK',  sub: 'Quiz por universos',  icon: '🎯', href: process.env.NEXT_PUBLIC_GEEK_URL || '#' },
+  { id: 'tienda',      label: 'TIENDA',        sub: 'darksidebros.com.uy', icon: '🛒', href: 'https://www.darksidebros.com.uy' },
 ]
 
 export default function Navbar({ user }) {
@@ -23,19 +25,19 @@ export default function Navbar({ user }) {
   }
 
   const links = [
-    { href: '/dashboard', label: 'INICIO', icon: '🏠' },
-    { href: '/fixture', label: 'FIXTURE', icon: '📅' },
-    { href: '/leaderboard', label: 'RANKING', icon: '🏆' },
-    { href: '/quiz', label: 'QUIZ DEL DIA', icon: '🧠' },
+    { href: '/dashboard', label: 'INICIO',      icon: '🏠' },
+    { href: '/fixture',   label: 'FIXTURE',     icon: '📅' },
+    { href: '/leaderboard', label: 'RANKING',   icon: '🏆' },
+    { href: '/quiz',      label: 'QUIZ DEL DIA', icon: '🧠' },
   ]
 
   return (
     <>
       <nav className={styles.nav}>
         <div className={styles.logo}>
-        <img src="/Logo.png" alt="Darkside Bros" className={styles.logoImg} />
-        <span className={styles.logoSub}>PENCA MUNDIAL 2026</span>
-      </div>
+          <img src="/Logo.png" alt="Darkside Bros" className={styles.logoImg} />
+          <span className={styles.logoSub}>PENCA MUNDIAL 2026</span>
+        </div>
 
         <div className={styles.tabs}>
           {links.map(l => (
@@ -48,7 +50,10 @@ export default function Navbar({ user }) {
 
         <div className={styles.right}>
           {user && <img src={user.user_metadata?.avatar_url || '/default-avatar.png'} alt="avatar" className={styles.avatar} />}
-          <button className={`${styles.menuBtn} ${menuOpen ? styles.menuBtnOpen : ''}`} onClick={() => setMenuOpen(v => !v)} title="Darkside Universe">
+          <button
+            className={`${styles.menuBtn} ${menuOpen ? styles.menuBtnOpen : ''}`}
+            onClick={() => setMenuOpen(v => !v)}
+          >
             <span className={styles.menuLine} />
             <span className={styles.menuLine} />
             <span className={styles.menuLine} />
@@ -56,38 +61,54 @@ export default function Navbar({ user }) {
         </div>
       </nav>
 
-      {menuOpen && (
-        <>
-          <div className={styles.overlay} onClick={() => setMenuOpen(false)} />
-          <div className={styles.dropdown}>
-            <div className={styles.dropTitle}>🌌 DARKSIDE UNIVERSE</div>
-            <div className={styles.dropApps}>
-              {UNIVERSE_APPS.map(app => (
-                app.href ? (
-                  <a key={app.id} href={app.href} className={styles.dropApp} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>
-                    <span className={styles.dropIcon}>{app.icon}</span>
-                    <div>
-                      <div className={styles.dropLabel}>{app.label}</div>
-                      <div className={styles.dropSub}>{app.sub}</div>
-                    </div>
-                    <span className={styles.dropArrow}>→</span>
-                  </a>
-                ) : (
-                  <div key={app.id} className={`${styles.dropApp} ${styles.dropActive}`}>
-                    <span className={styles.dropIcon}>{app.icon}</span>
-                    <div>
-                      <div className={styles.dropLabel}>{app.label}</div>
-                      <div className={styles.dropSub}>{app.sub}</div>
-                    </div>
-                    <span className={styles.dropCurrent}>AQUÍ</span>
-                  </div>
-                )
-              ))}
-            </div>
-            {user && <button className={styles.dropLogout} onClick={handleLogout}>CERRAR SESIÓN</button>}
+      {/* Overlay */}
+      {menuOpen && <div className={styles.overlay} onClick={() => setMenuOpen(false)} />}
+
+      {/* Side panel */}
+      <div className={`${styles.panel} ${menuOpen ? styles.panelOpen : ''}`}>
+        <div className={styles.panelHeader}>
+          <span className={styles.panelTitle}>🌌 DARKSIDE UNIVERSE</span>
+        </div>
+
+        <div className={styles.panelApps}>
+          {UNIVERSE_APPS.map(app => (
+            app.href ? (
+              <a key={app.id} href={app.href} className={styles.panelApp} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>
+                <span className={styles.panelIcon}>{app.icon}</span>
+                <div className={styles.panelAppInfo}>
+                  <div className={styles.panelAppLabel}>{app.label}</div>
+                  <div className={styles.panelAppSub}>{app.sub}</div>
+                </div>
+                <span className={styles.panelArrow}>→</span>
+              </a>
+            ) : (
+              <div key={app.id} className={`${styles.panelApp} ${styles.panelAppActive}`}>
+                <span className={styles.panelIcon}>{app.icon}</span>
+                <div className={styles.panelAppInfo}>
+                  <div className={styles.panelAppLabel}>{app.label}</div>
+                  <div className={styles.panelAppSub}>{app.sub}</div>
+                </div>
+                <span className={styles.panelHere}>AQUÍ</span>
+              </div>
+            )
+          ))}
+        </div>
+
+        <div className={styles.panelFooter}>
+          <div className={styles.panelContact}>
+            <span>📍</span> Soriano 1062, Montevideo
           </div>
-        </>
-      )}
+          <div className={styles.panelContact}>
+            <span>📷</span> @darksidebroscafe
+          </div>
+        </div>
+
+        {user && (
+          <button className={styles.panelLogout} onClick={handleLogout}>
+            CERRAR SESIÓN
+          </button>
+        )}
+      </div>
     </>
   )
 }

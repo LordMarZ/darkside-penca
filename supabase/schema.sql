@@ -95,3 +95,10 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- =============================================
+-- MIGRACIÓN: Soporte para quiz por días secuenciales
+-- Ejecutar este bloque si ya tenés la tabla quiz_attempts
+-- =============================================
+alter table quiz_attempts add column if not exists quiz_day int default 1;
+create unique index if not exists quiz_attempts_user_day on quiz_attempts(user_id, quiz_day);
