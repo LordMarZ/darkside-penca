@@ -2,104 +2,47 @@
 
 .statsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
 
-.statCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px;
-  text-align: center;
-}
+.statCard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
 
 .statVal { font-family: 'Bebas Neue', Impact, cursive; font-size: 32px; color: var(--red2); line-height: 1; }
 .statLabel { font-size: 10px; color: var(--muted); letter-spacing: 2px; font-weight: 700; margin-top: 4px; }
 
-.sectionTitle {
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 18px;
-  letter-spacing: 3px;
-  color: var(--red);
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
+.sectionTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 18px; letter-spacing: 3px; color: var(--red); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 
-.todayBox {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 24px;
-  position: relative;
-  overflow: hidden;
-}
-
-.todayBox::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--red3), var(--red2), var(--red3));
-}
-
-.todayBadge {
-  position: absolute;
-  top: 14px; right: 16px;
-  background: var(--red);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  padding: 3px 8px;
-  border-radius: 2px;
-}
-
+.todayBox { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; }
+.todayBox::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--red3), var(--red2), var(--red3)); }
+.todayBadge { position: absolute; top: 14px; right: 16px; background: var(--red); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 2px; padding: 3px 8px; border-radius: 2px; }
 .todayMatch { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; margin: 12px 0; }
-
 .todayTeam { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .bigFlag { font-size: 44px; }
 .bigName { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; letter-spacing: 2px; text-align: center; }
-
 .todayCenter { text-align: center; }
 .bigVs { font-family: 'Bebas Neue', Impact, cursive; font-size: 32px; color: var(--red); }
 .todayMeta { font-size: 13px; color: var(--muted); }
 .todayVenue { font-size: 11px; color: var(--muted2); margin-top: 2px; }
 .todayPred { font-size: 13px; color: var(--gold); font-family: monospace; margin-top: 4px; }
-
-.predictBtn {
-  background: var(--red3);
-  border: 1px solid var(--red);
-  color: #fff;
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 18px;
-  letter-spacing: 3px;
-  padding: 12px;
-  border-radius: 6px;
-  width: 100%;
-  margin-top: 8px;
-  transition: background 0.2s;
-}
+.predictBtn { background: var(--red3); border: 1px solid var(--red); color: #fff; font-family: 'Bebas Neue', Impact, cursive; font-size: 18px; letter-spacing: 3px; padding: 12px; border-radius: 6px; width: 100%; margin-top: 8px; transition: background 0.2s; cursor: pointer; }
 .predictBtn:hover { background: var(--red); }
 
-.matchList { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+/* Partidos por fecha */
+.dayBlock { margin-bottom: 24px; }
+.dayHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.dayTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 17px; letter-spacing: 2px; color: var(--text); }
+.dayMeta { font-size: 11px; color: var(--muted); }
+
+.matchList { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+
+.loadMoreBtn { width: 100%; background: none; border: 1px solid var(--border-light); border-radius: 8px; color: var(--muted); font-family: 'Bebas Neue', Impact, cursive; font-size: 14px; letter-spacing: 2px; padding: 12px; cursor: pointer; margin-bottom: 32px; transition: all 0.15s; }
+.loadMoreBtn:hover { color: var(--text); border-color: var(--muted2); }
 
 .lbCard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-
-.lbRow {
-  display: grid;
-  grid-template-columns: 40px 1fr 60px;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  gap: 8px;
-}
+.lbRow { display: grid; grid-template-columns: 40px 1fr 60px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); gap: 8px; }
 .lbRow:last-child { border-bottom: none; }
 .lbRow.lbYou { background: var(--red-dim); }
-
 .lbRank { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; color: var(--muted); }
 .lbRank.gold { color: var(--gold2); }
 .lbRank.silver { color: #c0c0c0; }
 .lbRank.bronze { color: #cd7f32; }
-
 .lbUser { display: flex; align-items: center; gap: 8px; }
 .lbAvatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
 .lbAvatarFallback { width: 28px; height: 28px; border-radius: 50%; background: var(--red3); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
@@ -107,69 +50,12 @@
 .youTag { font-size: 10px; color: var(--red); letter-spacing: 1px; font-weight: 700; }
 .lbPts { font-family: 'Bebas Neue', Impact, cursive; font-size: 22px; text-align: right; }
 
-/* --- additions v2 --- */
-.bonusToast {
-  background: linear-gradient(135deg, #1a0a00, #2d1500);
-  border: 1px solid #c9a227;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 13px;
-  color: var(--gold2);
-  margin-bottom: 16px;
-  cursor: pointer;
-  animation: slideIn 0.3s ease;
-}
+.bonusToast { background: linear-gradient(135deg, #1a0a00, #2d1500); border: 1px solid #c9a227; border-radius: 8px; padding: 10px 16px; font-size: 13px; color: var(--gold2); margin-bottom: 16px; cursor: pointer; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-@keyframes slideIn {
-  from { transform: translateY(-10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.championPromo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, #0d0d00, #1a150a);
-  border: 1px solid #3d3000;
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-bottom: 24px;
-  gap: 12px;
-}
-
+.championPromo { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #0d0d00, #1a150a); border: 1px solid #3d3000; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; gap: 12px; }
 .championLeft { flex: 1; }
-
-.championTitle {
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 16px;
-  color: var(--gold);
-  letter-spacing: 2px;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.championSub {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-.championBtn {
-  background: #2a1f00;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: all 0.15s;
-  flex-shrink: 0;
-  font-family: inherit;
-}
-
-.championBtn:hover {
-  background: var(--gold);
-  color: #000;
-}
+.championTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 16px; color: var(--gold); letter-spacing: 2px; line-height: 1; margin-bottom: 4px; }
+.championSub { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.championBtn { background: #2a1f00; border: 1px solid var(--gold); color: var(--gold); border-radius: 6px; padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; cursor: pointer; transition: all 0.15s; flex-shrink: 0; font-family: inherit; }
+.championBtn:hover { background: var(--gold); color: #000; }
