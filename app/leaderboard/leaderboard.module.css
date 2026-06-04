@@ -1,4 +1,4 @@
-.main { max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; }
+.main { width: 100%; max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; }
 
 .pageTitle {
   font-family: 'Bebas Neue', Impact, cursive;
@@ -52,3 +52,7 @@
 
 .streak { font-family: monospace; font-size: 14px; color: var(--gold); text-align: center; }
 .pts { font-family: 'Bebas Neue', Impact, cursive; font-size: 24px; text-align: right; }
+
+@media (max-width: 640px) {
+  .main { padding: 12px 12px 40px; }
+}

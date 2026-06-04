@@ -1,161 +1,72 @@
-.main { max-width: 600px; margin: 0 auto; padding: 20px 16px 60px; }
+.main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
 
-/* Selector de día */
 .header { text-align: center; margin-bottom: 20px; }
 .title { font-family: 'Bebas Neue', Impact, cursive; font-size: 32px; letter-spacing: 4px; color: var(--text); }
-.subtitle { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; }
+.date { font-size: 12px; color: var(--red); letter-spacing: 2px; font-weight: 700; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: var(--muted); }
 
-.scoreLegend { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+.scoreLegend { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
 .scorePill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--muted); }
 .scorePill strong { color: var(--gold2); }
 
-.dayCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 28px 24px;
-  text-align: center;
-  margin-bottom: 24px;
-  position: relative;
-}
+.resultBox { border-radius: 10px; padding: 24px; text-align: center; margin-bottom: 24px; border: 1px solid; }
+.resultWin { background: rgba(26, 122, 26, 0.15); border-color: var(--green); }
+.resultMiss { background: var(--card); border-color: var(--border); }
+.resultScore { font-family: 'Bebas Neue', Impact, cursive; font-size: 56px; color: var(--text); line-height: 1; }
+.resultMsg { font-family: 'Bebas Neue', Impact, cursive; font-size: 22px; letter-spacing: 3px; color: var(--gold2); margin-top: 4px; }
+.resultPts { font-size: 16px; font-weight: 700; color: var(--green2); letter-spacing: 1px; margin-top: 8px; }
 
-.dayBadge {
-  position: absolute;
-  top: 14px; right: 14px;
-  background: var(--red3);
-  color: var(--red2);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--red);
-}
+.questions { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
 
-.dayNum {
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 48px;
-  color: var(--text);
-  line-height: 1;
-  margin-bottom: 4px;
-}
+.qCard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
 
-.dayTheme {
+.qMeta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.qNum { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; color: var(--red); width: 24px; }
+.qCat { font-size: 10px; color: var(--muted); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; background: var(--red-dim); border: 1px solid var(--border); border-radius: 10px; padding: 2px 8px; }
+
+.qText { font-size: 16px; font-weight: 600; margin-bottom: 12px; line-height: 1.4; }
+
+.opts { display: flex; flex-direction: column; gap: 6px; }
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--dark);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 10px 14px;
+  text-align: left;
   font-size: 14px;
-  color: var(--muted);
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
 }
 
-.dayThemeSmall {
-  font-size: 13px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  margin-bottom: 4px;
+.opt:hover:not(:disabled) { border-color: var(--red3); background: var(--card2); }
+.optSelected { border-color: var(--red) !important; background: var(--red-dim) !important; }
+.optCorrect { border-color: var(--green) !important; background: rgba(26,122,26,0.2) !important; color: var(--green2) !important; }
+.optWrong { border-color: #550000 !important; background: rgba(100,0,0,0.2) !important; color: var(--muted) !important; }
+
+.optLetter {
+  width: 22px; height: 22px;
+  background: var(--border-light);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  flex-shrink: 0;
 }
 
-.startBtn {
+.submitBtn {
   background: var(--red3);
   border: 1px solid var(--red);
   color: #fff;
   font-family: 'Bebas Neue', Impact, cursive;
   font-size: 20px;
   letter-spacing: 3px;
-  padding: 14px 32px;
-  border-radius: 8px;
+  padding: 14px;
+  border-radius: 6px;
   width: 100%;
   transition: background 0.2s;
-  cursor: pointer;
 }
-.startBtn:hover { background: var(--red); }
-
-/* Historial */
-.histSection { margin-bottom: 24px; }
-.histTitle { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: var(--muted); margin-bottom: 12px; }
-.histGrid { display: flex; flex-wrap: wrap; gap: 8px; }
-.histDay {
-  width: 44px; height: 44px;
-  background: #0a1a0a;
-  border: 1px solid #1a3a1a;
-  border-radius: 8px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 2px;
-}
-.histDayNum { font-size: 10px; color: var(--muted); font-weight: 700; }
-.histCheck { font-size: 14px; color: var(--green2); }
-
-/* Quiz en curso */
-.quizHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.quizDay { font-size: 11px; color: var(--muted); letter-spacing: 1px; font-weight: 600; }
-.quizProgress { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; color: var(--text); }
-
-.progressBar { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 16px; }
-.progressFill { height: 100%; background: var(--red); border-radius: 2px; transition: width 0.3s ease; }
-
-/* Timer */
-.timerWrap { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-.timerBar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-.timerFill { height: 100%; border-radius: 4px; }
-.timerNum { font-family: 'Bebas Neue', Impact, cursive; font-size: 22px; width: 36px; text-align: right; line-height: 1; }
-
-/* Pregunta */
-.qCard { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
-.qText { font-size: 18px; font-weight: 700; margin-bottom: 18px; line-height: 1.4; }
-
-.opts { display: flex; flex-direction: column; gap: 8px; }
-.opt {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--dark);
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
-  padding: 12px 16px;
-  text-align: left;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-  transition: all 0.15s;
-  cursor: pointer;
-  width: 100%;
-}
-.opt:hover:not(:disabled) { border-color: var(--red3); background: var(--card2); }
-.optSelected { border-color: var(--red) !important; background: var(--red-dim) !important; }
-.optCorrect { border-color: #2d7a2d !important; background: rgba(26,122,26,0.2) !important; color: #6fcf6f !important; }
-.optWrong { border-color: #550000 !important; background: rgba(100,0,0,0.15) !important; color: var(--muted) !important; }
-.optLetter {
-  width: 26px; height: 26px;
-  background: var(--border-light);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700;
-  flex-shrink: 0;
-}
-
-.revealMsg {
-  text-align: center;
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 18px;
-  letter-spacing: 2px;
-  padding: 10px;
-  animation: fadeIn 0.2s ease;
-}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Resultado */
-.resultBox { border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 20px; border: 1px solid; }
-.resultWin { background: rgba(26,122,26,0.12); border-color: #2d7a2d; }
-.resultMiss { background: var(--card); border-color: var(--border); }
-.resultScore { font-family: 'Bebas Neue', Impact, cursive; font-size: 64px; color: var(--text); line-height: 1; }
-.resultMsg { font-family: 'Bebas Neue', Impact, cursive; font-size: 22px; letter-spacing: 2px; color: var(--gold2); margin-top: 4px; }
-.resultPts { font-size: 16px; font-weight: 700; color: #6fcf6f; letter-spacing: 1px; margin-top: 10px; }
-
-.nextDayTeaser {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px 20px;
-  text-align: center;
-  margin-bottom: 8px;
-}
-.nextDayLabel { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: var(--muted); margin-bottom: 4px; }
-.nextDayTheme { font-size: 15px; font-weight: 700; color: var(--text); }
+.submitBtn:hover { background: var(--red); }

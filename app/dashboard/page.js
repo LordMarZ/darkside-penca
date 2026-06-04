@@ -21,16 +21,10 @@ export default function Dashboard() {
   const [showChampionPicker, setShowChampionPicker] = useState(false)
   const [loading, setLoading] = useState(true)
   const [loginBonus, setLoginBonus] = useState(null)
-  const [visibleDates, setVisibleDates] = useState(2)
 
   const today = new Date().toISOString().slice(0, 10)
+  const upcomingMatches = MATCHES.filter(m => m.phase === 'groups').slice(0, 8)
   const todayMatch = MATCHES.find(m => m.date === today) || MATCHES[0]
-
-  const upcomingDates = [...new Set(
-    MATCHES.filter(m => m.phase === 'groups' && m.date >= today).map(m => m.date)
-  )].sort()
-
-  const shownDates = upcomingDates.slice(0, visibleDates)
 
   useEffect(() => {
     async function load() {
@@ -51,9 +45,12 @@ export default function Dashboard() {
       setLeaderboard(lbRes.data || [])
       setLoading(false)
 
+      // Registrar login streak (sin bloquear la carga)
       fetch('/api/login-streak', { method: 'POST' })
         .then(r => r.json())
-        .then(d => { if (d.bonus > 0) setLoginBonus(d) })
+        .then(d => {
+          if (d.bonus > 0) setLoginBonus(d)
+        })
         .catch(() => {})
     }
     load()
@@ -66,7 +63,9 @@ export default function Dashboard() {
       body: JSON.stringify({ match_id: matchId, score_home: scoreHome, score_away: scoreAway }),
     })
     const data = await res.json()
-    if (data.prediction) setPredictions(prev => ({ ...prev, [matchId]: data.prediction }))
+    if (data.prediction) {
+      setPredictions(prev => ({ ...prev, [matchId]: data.prediction }))
+    }
     return data
   }
 
@@ -90,6 +89,7 @@ export default function Dashboard() {
       <Navbar user={user} />
       <main className={styles.main}>
 
+        {/* Login bonus toast */}
         {loginBonus && (
           <div className={styles.bonusToast} onClick={() => setLoginBonus(null)}>
             🔥 Racha de {loginBonus.streak} dias seguidos · <strong>+{loginBonus.bonus} pt</strong>
@@ -116,7 +116,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Champion Picker */}
+        {/* Champion Picker promo */}
         <div className={styles.championPromo}>
           <div className={styles.championLeft}>
             <div className={styles.championTitle}>🏆 PRONÓSTICO CAMPEÓN</div>
@@ -131,7 +131,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Partido destacado */}
+        {/* Today */}
         <div className={styles.sectionTitle}>PARTIDO DESTACADO</div>
         <div className={styles.todayBox}>
           <div className={styles.todayBadge}>HOY</div>
@@ -160,40 +160,16 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Próximos partidos por fecha */}
-        <div className={styles.sectionTitle}>PRÓXIMOS PARTIDOS</div>
-
-        {shownDates.map(date => {
-          const dayMatches = MATCHES.filter(m => m.date === date && m.phase === 'groups')
-          const d = new Date(date + 'T12:00:00')
-          const label = d.toLocaleDateString('es-UY', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase()
-          const predCount = dayMatches.filter(m => predictions[m.id]).length
-
-          return (
-            <div key={date} className={styles.dayBlock}>
-              <div className={styles.dayHeader}>
-                <span className={styles.dayTitle}>
-                  {date === today ? '🔴 HOY — ' : ''}{label}
-                </span>
-                <span className={styles.dayMeta}>{predCount}/{dayMatches.length} pronosticados</span>
-              </div>
-              <div className={styles.matchList}>
-                {dayMatches.map(m => (
-                  <MatchCard key={m.id} match={m} prediction={predictions[m.id]} onPredict={setModalMatch} />
-                ))}
-              </div>
-            </div>
-          )
-        })}
-
-        {visibleDates < upcomingDates.length && (
-          <button className={styles.loadMoreBtn} onClick={() => setVisibleDates(v => v + 2)}>
-            VER MÁS FECHAS ({upcomingDates.length - visibleDates} restantes)
-          </button>
-        )}
+        {/* Upcoming */}
+        <div className={styles.sectionTitle}>PROXIMOS PARTIDOS</div>
+        <div className={styles.matchList}>
+          {upcomingMatches.map(m => (
+            <MatchCard key={m.id} match={m} prediction={predictions[m.id]} onPredict={setModalMatch} />
+          ))}
+        </div>
 
         {/* Mini leaderboard */}
-        <div className={styles.sectionTitle} style={{ marginTop: 32 }}>TOP 5 RANKING</div>
+        <div className={styles.sectionTitle}>TOP 5 RANKING</div>
         <div className={styles.lbCard}>
           {leaderboard.map((u, i) => (
             <div key={u.id} className={`${styles.lbRow} ${u.id === user?.id ? styles.lbYou : ''}`}>
@@ -213,10 +189,20 @@ export default function Dashboard() {
       </main>
 
       {modalMatch && (
-        <PredictModal match={modalMatch} existing={predictions[modalMatch.id]} onSave={savePrediction} onClose={() => setModalMatch(null)} />
+        <PredictModal
+          match={modalMatch}
+          existing={predictions[modalMatch.id]}
+          onSave={savePrediction}
+          onClose={() => setModalMatch(null)}
+        />
       )}
+
       {showChampionPicker && (
-        <ChampionPicker current={profile} onSave={saveChampion} onClose={() => setShowChampionPicker(false)} />
+        <ChampionPicker
+          current={profile}
+          onSave={saveChampion}
+          onClose={() => setShowChampionPicker(false)}
+        />
       )}
       <Footer />
     </>
