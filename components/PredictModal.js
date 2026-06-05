@@ -1,16 +1,23 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './PredictModal.module.css'
 
-export default function PredictModal({ match, existing, onSave, onClose }) {
-  const [h, setH] = useState(existing?.score_home ?? '')
-  const [a, setA] = useState(existing?.score_away ?? '')
+export default function PredictModal({ match, existing, onSave, onClose, onNext, nextMatch }) {
+  const [h, setH] = useState('')
+  const [a, setA] = useState('')
   const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+
+  // Resetear al cambiar de partido
+  useEffect(() => {
+    setH(existing?.score_home !== undefined ? String(existing.score_home) : '')
+    setA(existing?.score_away !== undefined ? String(existing.score_away) : '')
+    setSaved(false)
+  }, [match?.id])
 
   if (!match) return null
 
   function handleChange(val, setter) {
-    // Solo números, máximo 2 dígitos
     const clean = val.replace(/\D/g, '').slice(0, 2)
     setter(clean)
   }
@@ -19,7 +26,13 @@ export default function PredictModal({ match, existing, onSave, onClose }) {
     setSaving(true)
     await onSave(match.id, parseInt(h) || 0, parseInt(a) || 0)
     setSaving(false)
-    onClose()
+    setSaved(true)
+  }
+
+  function handleNext() {
+    if (onNext && nextMatch) {
+      onNext(nextMatch)
+    }
   }
 
   return (
@@ -38,6 +51,10 @@ export default function PredictModal({ match, existing, onSave, onClose }) {
             <span className={styles.flag}>{match.awayF}</span>
             <span className={styles.teamName}>{match.away}</span>
           </div>
+        </div>
+
+        <div className={styles.matchMeta}>
+          {match.date.slice(5).replace('-', '/')} · {match.time}hs · GRP {match.group}
         </div>
 
         <div className={styles.hint}>INGRESÁ EL MARCADOR QUE PREDECÍS</div>
@@ -72,9 +89,25 @@ export default function PredictModal({ match, existing, onSave, onClose }) {
           <span className={styles.badge}>Ganador <strong>1pt</strong></span>
         </div>
 
-        <button className={styles.saveBtn} onClick={handleSave} disabled={saving}>
-          {saving ? 'GUARDANDO...' : '⚽ GUARDAR PRONOSTICO'}
-        </button>
+        {saved ? (
+          <div className={styles.savedState}>
+            <div className={styles.savedMsg}>✓ PRONOSTICO GUARDADO</div>
+            {nextMatch && onNext ? (
+              <button className={styles.nextBtn} onClick={handleNext}>
+                PRÓXIMO PARTIDO →
+                <div className={styles.nextMatchPreview}>
+                  {nextMatch.homeF} {nextMatch.home} vs {nextMatch.away} {nextMatch.awayF}
+                </div>
+              </button>
+            ) : (
+              <button className={styles.closeBtn} onClick={onClose}>CERRAR</button>
+            )}
+          </div>
+        ) : (
+          <button className={styles.saveBtn} onClick={handleSave} disabled={saving}>
+            {saving ? 'GUARDANDO...' : '⚽ GUARDAR PRONOSTICO'}
+          </button>
+        )}
       </div>
     </div>
   )

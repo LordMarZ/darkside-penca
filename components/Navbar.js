@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: '/leaderboard', label: 'RANKING',       icon: '🏆' },
   { href: '/quiz',        label: 'QUIZ DEL DIA',  icon: '🧠' },
   { href: '/premios',     label: 'PREMIOS',       icon: '🎁' },
+  { href: '/reglas',      label: 'REGLAS',        icon: '📋' },
 ]
 
 const UNIVERSE_APPS = [

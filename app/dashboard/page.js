@@ -41,6 +41,16 @@ export default function Dashboard() {
   const shownDates = upcomingDates.slice(0, visibleDates)
   const todayMatch = MATCHES.find(m => m.date === today) || MATCHES[0]
 
+  // Lista de partidos pendientes ordenados por fecha+hora para navegar en el modal
+  const pendingMatches = MATCHES
+    .filter(m => m.phase === 'groups' && m.date >= today)
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+
+  function getNextMatch(currentMatchId) {
+    const idx = pendingMatches.findIndex(m => m.id === currentMatchId)
+    return idx >= 0 && idx < pendingMatches.length - 1 ? pendingMatches[idx + 1] : null
+  }
+
   useEffect(() => {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession()
@@ -226,7 +236,14 @@ export default function Dashboard() {
       </main>
 
       {modalMatch && (
-        <PredictModal match={modalMatch} existing={predictions[modalMatch.id]} onSave={savePrediction} onClose={() => setModalMatch(null)} />
+        <PredictModal
+          match={modalMatch}
+          existing={predictions[modalMatch.id]}
+          onSave={savePrediction}
+          onClose={() => setModalMatch(null)}
+          nextMatch={getNextMatch(modalMatch.id)}
+          onNext={(next) => setModalMatch(next)}
+        />
       )}
       {showChampionPicker && (
         <ChampionPicker current={profile} onSave={saveChampion} onClose={() => setShowChampionPicker(false)} />

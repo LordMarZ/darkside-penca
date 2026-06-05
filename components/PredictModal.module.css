@@ -110,3 +110,74 @@
 }
 .saveBtn:hover:not(:disabled) { background: var(--red); }
 .saveBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Estado guardado + próximo partido ─── */
+.matchMeta {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.savedState {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.savedMsg {
+  text-align: center;
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #44cc44;
+  padding: 10px;
+  background: rgba(26, 122, 26, 0.15);
+  border: 1px solid #1a4a1a;
+  border-radius: 8px;
+}
+
+.nextBtn {
+  background: var(--red3);
+  border: 1px solid var(--red);
+  color: #fff;
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 18px;
+  letter-spacing: 2px;
+  padding: 12px 16px 10px;
+  border-radius: 8px;
+  width: 100%;
+  transition: background 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.nextBtn:hover { background: var(--red); }
+
+.nextMatchPreview {
+  font-family: 'Rajdhani', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.7);
+  text-transform: none;
+}
+
+.closeBtn {
+  background: none;
+  border: 1px solid #2a2a2a;
+  color: #888;
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 16px;
+  letter-spacing: 2px;
+  padding: 11px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.closeBtn:hover { color: var(--text); border-color: #555; }
