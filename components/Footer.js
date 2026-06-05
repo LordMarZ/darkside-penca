@@ -6,14 +6,14 @@ export default function Footer() {
       <div className={styles.inner}>
 
         <div className={styles.logoWrap}>
-          <img src="/logo-cafe.png" alt="Darkside Café" className={styles.logo} />
+          <img src="/logo-bros.png" alt="Darkside Bros" className={styles.logo} />
           <div className={styles.tagline}>DARKSIDE BROS CAFÉ · MONTEVIDEO</div>
         </div>
 
         <div className={styles.cols}>
           <div className={styles.col}>
             <div className={styles.colTitle}>CONTACTO</div>
-            <a href="https://maps.google.com/?q=Soriano+1062+Montevideo" target="_blank" rel="noopener noreferrer" className={styles.link}>
+            <a href="https://www.google.com/maps/place/DarkSide+Bros+Coleccionables/@-34.9081721,-56.1931385,21z/data=!4m6!3m5!1s0x959f816d3283d569:0xc8d2b0622edf9fbf!8m2!3d-34.9080381!4d-56.1931932!16s%2Fg%2F11c37kjz6r?entry=ttu&g_ep=EgoyMDI2MDYwMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className={styles.link}>
               <span>📍</span> Soriano 1062, Mvd
             </a>
             <a href="https://wa.me/59892211177" target="_blank" rel="noopener noreferrer" className={styles.link}>
