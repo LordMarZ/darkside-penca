@@ -18,11 +18,16 @@
 .logoWrap { text-align: center; }
 
 .logo {
-  height: 90px;
+  height: 56px;
   width: auto;
+  max-width: 320px;
   object-fit: contain;
   display: block;
   margin: 0 auto 12px;
+}
+
+@media (max-width: 480px) {
+  .logo { height: 44px; max-width: 260px; }
 }
 
 .tagline {
