@@ -6,7 +6,7 @@ export default function Footer() {
       <div className={styles.inner}>
 
         <div className={styles.logoWrap}>
-          <img src="/logo-bros.png" alt="Darkside Bros" className={styles.logo} />
+          <img src="/logo-cafe.png" alt="Darkside Café" className={styles.logo} />
           <div className={styles.tagline}>DARKSIDE BROS CAFÉ · MONTEVIDEO</div>
         </div>
 

@@ -24,8 +24,8 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.logo}>DARKSIDE<br />BROS</div>
-        <span className={styles.logoSub}>CAFE · PENCA MUNDIAL 2026</span>
+        <img src="/logo-bros.png" alt="Darkside Bros" className={styles.logoImg} />
+        <span className={styles.logoSub}>PENCA MUNDIAL 2026</span>
         <h1 className={styles.title}>UNITE A LA OSCURIDAD</h1>
         <p className={styles.desc}>
           Predeci los resultados del Mundial USA · MX · CA 2026

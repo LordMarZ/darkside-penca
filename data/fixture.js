@@ -11,7 +11,7 @@ export const PHASES = {
 }
 
 export const GROUPS = {
-  A: { teams: [{flag:'🇲🇽',name:'México'},{flag:'🇿🇦',name:'Sudáfrica'},{flag:'🇰🇷',name:'Corea del Sur'},{flag:'🇨🇿',name:'Chequia'}] },
+  A: { teams: [{flag:'🇲🇽',name:'México'},{flag:'🇿🇦',name:'Sudáfrica'},{flag:'🇰🇷',name:'Corea del Sur'},{flag:'🇨🇿',name:'Rep. Checa'}] },
   B: { teams: [{flag:'🇨🇦',name:'Canadá'},{flag:'🇧🇦',name:'Bosnia y Herzegovina'},{flag:'🇶🇦',name:'Qatar'},{flag:'🇨🇭',name:'Suiza'}] },
   C: { teams: [{flag:'🇧🇷',name:'Brasil'},{flag:'🇲🇦',name:'Marruecos'},{flag:'🇭🇹',name:'Haití'},{flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',name:'Escocia'}] },
   D: { teams: [{flag:'🇺🇸',name:'Estados Unidos'},{flag:'🇵🇾',name:'Paraguay'},{flag:'🇦🇺',name:'Australia'},{flag:'🇹🇷',name:'Turquía'}] },
@@ -28,10 +28,10 @@ export const GROUPS = {
 export const MATCHES = [
   // ─── GRUPO A ───────────────────────────────────────────
   { id: 1,  phase: 'groups', group: 'A', home: 'México',        homeF: '🇲🇽', away: 'Sudáfrica',       awayF: '🇿🇦', date: '2026-06-11', time: '16:00', venue: 'Estadio Azteca, CDMX' },
-  { id: 2,  phase: 'groups', group: 'A', home: 'Corea del Sur', homeF: '🇰🇷', away: 'Chequia',          awayF: '🇨🇿', date: '2026-06-11', time: '23:00', venue: 'Estadio Akron, Guadalajara' },
-  { id: 3,  phase: 'groups', group: 'A', home: 'Chequia',       homeF: '🇨🇿', away: 'Sudáfrica',        awayF: '🇿🇦', date: '2026-06-18', time: '13:00', venue: 'Mercedes-Benz, Atlanta' },
+  { id: 2,  phase: 'groups', group: 'A', home: 'Corea del Sur', homeF: '🇰🇷', away: 'Rep. Checa',          awayF: '🇨🇿', date: '2026-06-11', time: '23:00', venue: 'Estadio Akron, Guadalajara' },
+  { id: 3,  phase: 'groups', group: 'A', home: 'Rep. Checa',       homeF: '🇨🇿', away: 'Sudáfrica',        awayF: '🇿🇦', date: '2026-06-18', time: '13:00', venue: 'Mercedes-Benz, Atlanta' },
   { id: 4,  phase: 'groups', group: 'A', home: 'México',        homeF: '🇲🇽', away: 'Corea del Sur',    awayF: '🇰🇷', date: '2026-06-18', time: '22:00', venue: 'Estadio Akron, Guadalajara' },
-  { id: 5,  phase: 'groups', group: 'A', home: 'Chequia',       homeF: '🇨🇿', away: 'México',           awayF: '🇲🇽', date: '2026-06-24', time: '22:00', venue: 'Estadio Azteca, CDMX' },
+  { id: 5,  phase: 'groups', group: 'A', home: 'Rep. Checa',       homeF: '🇨🇿', away: 'México',           awayF: '🇲🇽', date: '2026-06-24', time: '22:00', venue: 'Estadio Azteca, CDMX' },
   { id: 6,  phase: 'groups', group: 'A', home: 'Sudáfrica',     homeF: '🇿🇦', away: 'Corea del Sur',    awayF: '🇰🇷', date: '2026-06-24', time: '22:00', venue: 'Estadio BBVA, Monterrey' },
 
   // ─── GRUPO B ───────────────────────────────────────────

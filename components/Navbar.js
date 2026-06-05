@@ -32,6 +32,8 @@ export default function Navbar({ user }) {
     router.push('/login')
   }
 
+  const close = () => setMenuOpen(false)
+
   return (
     <>
       <nav className={styles.nav}>
@@ -49,14 +51,20 @@ export default function Navbar({ user }) {
         </div>
       </nav>
 
-      {menuOpen && <div className={styles.overlay} onClick={() => setMenuOpen(false)} />}
+      {menuOpen && <div className={styles.overlay} onClick={close} />}
 
       <div className={`${styles.panel} ${menuOpen ? styles.panelOpen : ''}`}>
+
+        {/* Header con X para cerrar */}
+        <div className={styles.panelHeader}>
+          <span className={styles.panelTitle}>MENÚ</span>
+          <button className={styles.panelClose} onClick={close} aria-label="Cerrar menú">✕</button>
+        </div>
 
         <div className={styles.panelSection}>
           <div className={styles.panelSectionTitle}>NAVEGACIÓN</div>
           {NAV_LINKS.map(l => (
-            <Link key={l.href} href={l.href} className={`${styles.panelNavLink} ${pathname === l.href ? styles.panelNavActive : ''}`} onClick={() => setMenuOpen(false)}>
+            <Link key={l.href} href={l.href} className={`${styles.panelNavLink} ${pathname === l.href ? styles.panelNavActive : ''}`} onClick={close}>
               <span className={styles.panelNavIcon}>{l.icon}</span>
               <span className={styles.panelNavLabel}>{l.label}</span>
               {pathname === l.href && <span className={styles.panelNavDot} />}
@@ -70,7 +78,7 @@ export default function Navbar({ user }) {
           <div className={styles.panelSectionTitle}>🌌 DARKSIDE UNIVERSE</div>
           {UNIVERSE_APPS.map(app => {
             if (app.href) return (
-              <a key={app.id} href={app.href} className={styles.panelApp} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>
+              <a key={app.id} href={app.href} className={styles.panelApp} target="_blank" rel="noopener noreferrer" onClick={close}>
                 <span className={styles.panelIcon}>{app.icon}</span>
                 <div className={styles.panelAppInfo}>
                   <div className={styles.panelAppLabel}>{app.label}</div>

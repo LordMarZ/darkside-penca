@@ -1,18 +1,15 @@
 .overlay {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.85);
   z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   padding: 16px;
 }
 
 .modal {
   background: var(--card);
   border: 1px solid var(--red3);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 28px 24px;
   max-width: 360px;
   width: 100%;
@@ -21,109 +18,78 @@
 
 .modal::before {
   content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg, var(--red3), var(--red2), var(--red3));
-  border-radius: 10px 10px 0 0;
+  border-radius: 12px 12px 0 0;
 }
 
 .close {
-  position: absolute;
-  top: 12px; right: 14px;
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 18px;
-  transition: color 0.2s;
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none;
+  color: #888; font-size: 18px; transition: color 0.2s;
 }
 .close:hover { color: var(--red2); }
 
 .title {
   font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 22px;
-  letter-spacing: 3px;
-  text-align: center;
-  margin-bottom: 18px;
+  font-size: 22px; letter-spacing: 3px;
+  text-align: center; margin-bottom: 18px;
+  color: var(--text);
 }
 
 .matchInfo {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 18px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 8px; margin-bottom: 18px;
 }
 
-.team {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.team.right { align-items: center; }
-
+.team { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .flag { font-size: 32px; }
-
-.teamName {
-  font-size: 13px;
-  font-weight: 700;
-  text-align: center;
-}
+.teamName { font-size: 13px; font-weight: 700; text-align: center; color: var(--text); }
 
 .vsText {
   font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 22px;
-  color: var(--muted);
-  text-align: center;
+  font-size: 22px; color: #aaa; text-align: center;
 }
 
 .hint {
-  text-align: center;
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  margin-bottom: 14px;
+  text-align: center; font-size: 11px;
+  color: #888; letter-spacing: 1px; margin-bottom: 14px;
 }
 
 .scoreRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 14px;
+  display: flex; align-items: center;
+  justify-content: center; gap: 14px; margin-bottom: 16px;
 }
 
 .scoreInput {
-  background: var(--dark);
-  border: 1px solid var(--border-light);
+  background: #1a1a1a;
+  border: 2px solid #333;
   color: var(--text);
   font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 36px;
-  width: 70px;
-  height: 70px;
+  font-size: 42px;
+  width: 80px; height: 80px;
   text-align: center;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: border-color 0.2s;
+  caret-color: transparent;   /* sin cursor titilando */
+  -webkit-appearance: none;
 }
 .scoreInput:focus {
   outline: none;
   border-color: var(--red);
+  background: #200000;
 }
+.scoreInput::placeholder { color: #444; }
 
 .dash {
   font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 32px;
-  color: var(--muted);
+  font-size: 36px; color: #888;
 }
 
 .badges {
-  display: flex;
-  gap: 6px;
+  display: flex; gap: 6px;
   justify-content: center;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
+  margin-bottom: 16px; flex-wrap: wrap;
 }
 
 .badge {
@@ -131,24 +97,16 @@
   border: 1px solid var(--red3);
   border-radius: 20px;
   padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12px; font-weight: 600; color: #ccc;
 }
-
 .badge strong { color: var(--gold2); font-family: 'Bebas Neue', Impact, cursive; font-size: 15px; }
 
 .saveBtn {
-  background: var(--red3);
-  border: 1px solid var(--red);
-  color: #fff;
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 18px;
-  letter-spacing: 2px;
-  padding: 13px;
-  border-radius: 6px;
-  width: 100%;
+  background: var(--red3); border: 1px solid var(--red);
+  color: #fff; font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 18px; letter-spacing: 2px;
+  padding: 13px; border-radius: 6px; width: 100%;
   transition: background 0.2s;
 }
-
 .saveBtn:hover:not(:disabled) { background: var(--red); }
 .saveBtn:disabled { opacity: 0.5; cursor: not-allowed; }
