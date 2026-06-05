@@ -1,190 +1,73 @@
 .main { width: 100%; max-width: 880px; margin: 0 auto; padding: 20px 16px 40px; }
 
-.statsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
-
-.statCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px;
-  text-align: center;
-}
-
+.statsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+.statCard { background: var(--card); border: 1px solid #222; border-radius: 8px; padding: 14px; text-align: center; }
 .statVal { font-family: 'Bebas Neue', Impact, cursive; font-size: 32px; color: var(--red2); line-height: 1; }
-.statLabel { font-size: 10px; color: var(--muted); letter-spacing: 2px; font-weight: 700; margin-top: 4px; }
+.statLabel { font-size: 10px; color: #999; letter-spacing: 1.5px; font-weight: 700; margin-top: 4px; }
 
-.sectionTitle {
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 18px;
-  letter-spacing: 3px;
-  color: var(--red);
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
+.sectionTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 18px; letter-spacing: 3px; color: var(--red); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #222; }
 
-.todayBox {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 24px;
-  position: relative;
-  overflow: hidden;
-}
+.championPromo { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #0d0d00, #1a150a); border: 1px solid #3d3000; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; gap: 12px; }
+.championLeft { flex: 1; }
+.championTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 16px; color: var(--gold); letter-spacing: 2px; line-height: 1; margin-bottom: 4px; }
+.championSub { font-size: 13px; color: #999; line-height: 1.4; }
+.championBtn { background: #2a1f00; border: 1px solid var(--gold); color: var(--gold); border-radius: 6px; padding: 8px 16px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; cursor: pointer; transition: all 0.15s; flex-shrink: 0; font-family: inherit; }
+.championBtn:hover { background: var(--gold); color: #000; }
 
-.todayBox::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--red3), var(--red2), var(--red3));
-}
-
-.todayBadge {
-  position: absolute;
-  top: 14px; right: 16px;
-  background: var(--red);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  padding: 3px 8px;
-  border-radius: 2px;
-}
-
+.todayBox { background: var(--card); border: 1px solid #222; border-radius: 10px; padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; }
+.todayBox::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--red3), var(--red2), var(--red3)); }
+.todayBadge { position: absolute; top: 14px; right: 16px; background: var(--red); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 2px; padding: 3px 8px; border-radius: 2px; }
 .todayMatch { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; margin: 12px 0; }
-
 .todayTeam { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .bigFlag { font-size: 44px; }
 .bigName { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; letter-spacing: 2px; text-align: center; }
-
 .todayCenter { text-align: center; }
 .bigVs { font-family: 'Bebas Neue', Impact, cursive; font-size: 32px; color: var(--red); }
-.todayMeta { font-size: 13px; color: var(--muted); }
-.todayVenue { font-size: 11px; color: var(--muted2); margin-top: 2px; }
-.todayPred { font-size: 13px; color: var(--gold); font-family: monospace; margin-top: 4px; }
-
-.predictBtn {
-  background: var(--red3);
-  border: 1px solid var(--red);
-  color: #fff;
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 18px;
-  letter-spacing: 3px;
-  padding: 12px;
-  border-radius: 6px;
-  width: 100%;
-  margin-top: 8px;
-  transition: background 0.2s;
-}
+.todayMeta { font-size: 13px; color: #999; }
+.todayVenue { font-size: 11px; color: #666; margin-top: 2px; }
+.todayPred { font-size: 13px; color: var(--gold2); font-family: monospace; font-weight: 700; margin-top: 4px; }
+.predictBtn { background: var(--red3); border: 1px solid var(--red); color: #fff; font-family: 'Bebas Neue', Impact, cursive; font-size: 18px; letter-spacing: 3px; padding: 12px; border-radius: 6px; width: 100%; margin-top: 8px; transition: background 0.2s; cursor: pointer; }
 .predictBtn:hover { background: var(--red); }
 
-.matchList { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+/* ── PARTIDOS POR FECHA ─────────────────── */
+.dayBlock { margin-bottom: 24px; }
+.dayHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+.dayTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 18px; letter-spacing: 2px; color: var(--text); }
+.dayMeta { font-size: 12px; color: #888; font-weight: 600; }
+.matchList { display: flex; flex-direction: column; gap: 8px; }
 
-.lbCard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.loadMoreBtn { width: 100%; background: none; border: 1px solid #2a2a2a; border-radius: 8px; color: #888; font-family: 'Bebas Neue', Impact, cursive; font-size: 14px; letter-spacing: 2px; padding: 12px; cursor: pointer; margin: 8px 0 32px; transition: all 0.15s; }
+.loadMoreBtn:hover { color: var(--text); border-color: #555; }
 
-.lbRow {
-  display: grid;
-  grid-template-columns: 40px 1fr 60px;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  gap: 8px;
-}
+/* ── RANKING ─────────────────────────────── */
+.lbCard { background: var(--card); border: 1px solid #222; border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.lbRow { display: grid; grid-template-columns: 40px 1fr 60px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #1a1a1a; gap: 8px; }
 .lbRow:last-child { border-bottom: none; }
 .lbRow.lbYou { background: var(--red-dim); }
-
-.lbRank { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; color: var(--muted); }
+.lbRank { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; color: #666; }
 .lbRank.gold { color: var(--gold2); }
 .lbRank.silver { color: #c0c0c0; }
 .lbRank.bronze { color: #cd7f32; }
-
 .lbUser { display: flex; align-items: center; gap: 8px; }
 .lbAvatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
 .lbAvatarFallback { width: 28px; height: 28px; border-radius: 50%; background: var(--red3); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
-.lbName { font-size: 14px; font-weight: 600; }
-.youTag { font-size: 10px; color: var(--red); letter-spacing: 1px; font-weight: 700; }
-.lbPts { font-family: 'Bebas Neue', Impact, cursive; font-size: 22px; text-align: right; }
+.lbName { font-size: 15px; font-weight: 600; color: var(--text); }
+.youTag { font-size: 10px; color: var(--red2); letter-spacing: 1px; font-weight: 700; }
+.lbPts { font-family: 'Bebas Neue', Impact, cursive; font-size: 22px; text-align: right; color: var(--text); }
 
-/* --- additions v2 --- */
-.bonusToast {
-  background: linear-gradient(135deg, #1a0a00, #2d1500);
-  border: 1px solid #c9a227;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 13px;
-  color: var(--gold2);
-  margin-bottom: 16px;
-  cursor: pointer;
-  animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-  from { transform: translateY(-10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.championPromo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, #0d0d00, #1a150a);
-  border: 1px solid #3d3000;
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-bottom: 24px;
-  gap: 12px;
-}
-
-.championLeft { flex: 1; }
-
-.championTitle {
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 16px;
-  color: var(--gold);
-  letter-spacing: 2px;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.championSub {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-.championBtn {
-  background: #2a1f00;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: all 0.15s;
-  flex-shrink: 0;
-  font-family: inherit;
-}
-
-.championBtn:hover {
-  background: var(--gold);
-  color: #000;
-}
+.bonusToast { background: linear-gradient(135deg, #1a0a00, #2d1500); border: 1px solid #c9a227; border-radius: 8px; padding: 10px 16px; font-size: 14px; color: var(--gold2); margin-bottom: 16px; cursor: pointer; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 /* ── MOBILE ──────────────────────────────── */
 @media (max-width: 640px) {
   .main { padding: 16px 12px 40px; }
   .statsGrid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .statVal { font-size: 26px; }
-  .statLabel { font-size: 9px; letter-spacing: 1px; }
+  .statLabel { font-size: 9px; }
   .bigFlag { font-size: 32px; }
   .bigName { font-size: 16px; }
   .bigVs { font-size: 24px; }
-  .todayMeta { font-size: 12px; }
-  .todayVenue { font-size: 10px; }
-  .lbRow { padding: 10px 12px; }
+  .dayTitle { font-size: 16px; }
   .lbName { font-size: 13px; }
+  .lbRow { padding: 10px 12px; }
 }
