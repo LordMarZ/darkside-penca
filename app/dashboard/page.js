@@ -8,6 +8,7 @@ import MatchCard from '../../components/MatchCard'
 import PredictModal from '../../components/PredictModal'
 import ChampionPicker from '../../components/ChampionPicker'
 import { MATCHES } from '../../data/fixture'
+import Flag from '../../components/Flag'
 import styles from './dashboard.module.css'
 
 const DAY_NAMES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
@@ -155,7 +156,7 @@ export default function Dashboard() {
           <div className={styles.todayBadge}>HOY</div>
           <div className={styles.todayMatch}>
             <div className={styles.todayTeam}>
-              <span className={styles.bigFlag}>{todayMatch.homeF}</span>
+              <Flag country={todayMatch.home} size={52} />
               <span className={styles.bigName}>{todayMatch.home}</span>
             </div>
             <div className={styles.todayCenter}>
@@ -167,7 +168,7 @@ export default function Dashboard() {
               )}
             </div>
             <div className={styles.todayTeam}>
-              <span className={styles.bigFlag}>{todayMatch.awayF}</span>
+              <Flag country={todayMatch.away} size={52} />
               <span className={styles.bigName}>{todayMatch.away}</span>
             </div>
           </div>

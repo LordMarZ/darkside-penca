@@ -1,4 +1,5 @@
 'use client'
+import Flag from './Flag'
 import styles from './MatchCard.module.css'
 
 export default function MatchCard({ match, prediction, onPredict, showDate = true }) {
@@ -10,7 +11,7 @@ export default function MatchCard({ match, prediction, onPredict, showDate = tru
       {pred && <span className={styles.checkBadge}>✓</span>}
       <div className={styles.inner}>
         <div className={styles.team}>
-          <span className={styles.flag}>{match.homeF}</span>
+          <Flag country={match.home} size={28} />
           <span className={styles.name}>{match.home}</span>
         </div>
         <div className={styles.center}>
@@ -19,12 +20,12 @@ export default function MatchCard({ match, prediction, onPredict, showDate = tru
           ) : (
             <div className={styles.vs}>VS</div>
           )}
-          {showDate && <div className={styles.meta}>{match.date.slice(5)} · {match.time}</div>}
+          {showDate && <div className={styles.meta}>{match.date.slice(5).replace('-','/')} · {match.time}</div>}
           {pred && <div className={styles.predLabel}>{pred.score_home}-{pred.score_away}</div>}
           {pred?.pts_earned > 0 && <div className={styles.pts}>+{pred.pts_earned}pts</div>}
         </div>
         <div className={`${styles.team} ${styles.right}`}>
-          <span className={styles.flag}>{match.awayF}</span>
+          <Flag country={match.away} size={28} />
           <span className={styles.name}>{match.away}</span>
         </div>
       </div>

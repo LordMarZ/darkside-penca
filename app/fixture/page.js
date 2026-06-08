@@ -5,6 +5,7 @@ import { createClient } from '../../lib/supabase'
 import { useRouter } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import MatchCard from '../../components/MatchCard'
+import Flag from '../../components/Flag'
 import PredictModal from '../../components/PredictModal'
 import { MATCHES, GROUPS, PHASES } from '../../data/fixture'
 import styles from './fixture.module.css'
@@ -80,7 +81,7 @@ export default function FixturePage() {
               </div>
               {GROUPS[activeGroup].teams.map((t, i) => (
                 <div key={i} className={styles.stRow}>
-                  <span style={{ display:'flex', alignItems:'center', gap:6 }}><span>{t.flag}</span><span>{t.name}</span></span>
+                  <span style={{ display:'flex', alignItems:'center', gap:6 }}><Flag country={t.name} size={20} /><span>{t.name}</span></span>
                   <span>0</span><span>0</span><span>0</span><span>0</span>
                   <span style={{ fontFamily:'Bebas Neue, Impact, cursive', fontSize:18, color:'var(--gold)' }}>0</span>
                 </div>
