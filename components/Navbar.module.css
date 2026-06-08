@@ -9,6 +9,8 @@
 }
 
 .logo { display: flex; align-items: center; gap: 10px; }
+.logoDivider { width: 1px; height: 28px; background: #2a2a2a; flex-shrink: 0; }
+.tccImg { height: 28px; width: auto; object-fit: contain; flex-shrink: 0; }
 .logoImg { height: 34px; width: auto; object-fit: contain; }
 .logoSub { font-size: 9px; color: var(--red); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
 

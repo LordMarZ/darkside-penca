@@ -1,53 +1,49 @@
-.main { width: 100%; max-width: 720px; margin: 0 auto; padding: 24px 16px 60px; }
-
-.header { text-align: center; margin-bottom: 32px; }
-.title { font-family: 'Bebas Neue', Impact, cursive; font-size: 40px; letter-spacing: 5px; color: var(--text); line-height: 1; }
-.subtitle { font-size: 14px; color: #999; margin-top: 8px; line-height: 1.5; max-width: 480px; margin-left: auto; margin-right: auto; }
-
-.sectionTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 20px; letter-spacing: 3px; color: var(--red); margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #222; }
-
-.premiosGrid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
-
-.premioCard {
-  background: #0d0d0d;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
-  padding: 20px;
-}
-
-.premioTitle {
-  font-family: 'Bebas Neue', Impact, cursive;
-  font-size: 22px;
-  letter-spacing: 2px;
-  margin-bottom: 14px;
-}
-
-.premioItem {
+.main {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 60px 16px 80px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px;
-  background: #111;
-  border-radius: 8px;
-  margin-bottom: 8px;
+  justify-content: center;
+  min-height: 60vh;
 }
-.premioItem:last-child { margin-bottom: 0; }
 
-.premioIcon { font-size: 28px; flex-shrink: 0; }
-.premioNombre { font-size: 16px; font-weight: 700; color: var(--text); }
-.premioSponsor { font-size: 12px; color: #777; margin-top: 2px; }
+.comingSoon {
+  text-align: center;
+}
 
-.sponsorsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 32px; }
+.icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
 
-.sponsorCard { background: #0d0d0d; border: 1px solid #2a2a2a; border-radius: 10px; padding: 20px; text-align: center; text-decoration: none; transition: border-color 0.15s; display: block; }
-.sponsorCard:hover { border-color: var(--red3); }
-.sponsorLogo { font-size: 36px; margin-bottom: 8px; }
-.sponsorNombre { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.sponsorDesc { font-size: 12px; color: #777; }
+.title {
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 48px;
+  letter-spacing: 6px;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 16px;
+}
 
-.disclaimer { font-size: 12px; color: #666; text-align: center; line-height: 1.6; border: 1px solid #1a1a1a; border-radius: 8px; padding: 16px; background: #0a0a0a; }
+.badge {
+  display: inline-block;
+  background: var(--red-dim);
+  border: 1px solid var(--red3);
+  color: var(--red2);
+  font-family: 'Bebas Neue', Impact, cursive;
+  font-size: 16px;
+  letter-spacing: 4px;
+  padding: 6px 20px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
 
-@media (max-width: 640px) {
-  .main { padding: 16px 12px 40px; }
-  .title { font-size: 32px; }
+.desc {
+  font-size: 15px;
+  color: #888;
+  line-height: 1.7;
+  max-width: 380px;
+  margin: 0 auto;
 }

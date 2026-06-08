@@ -40,6 +40,8 @@ export default function Navbar({ user }) {
       <nav className={styles.nav}>
         <div className={styles.logo}>
           <img src="/Logo.png" alt="Darkside Bros" className={styles.logoImg} />
+          <div className={styles.logoDivider} />
+          <img src="/tcc-logo.png" alt="TCC" className={styles.tccImg} />
           <span className={styles.logoSub}>PENCA MUNDIAL 2026</span>
         </div>
         <div className={styles.right}>
