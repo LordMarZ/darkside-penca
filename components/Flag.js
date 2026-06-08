@@ -1,4 +1,4 @@
-// Banderas como imágenes reales — funciona en Windows, Android, iOS
+// Banderas usando flag-icons CSS — funciona en todos los sistemas y navegadores
 const CODES = {
   'México': 'mx', 'Sudáfrica': 'za', 'Corea del Sur': 'kr', 'Rep. Checa': 'cz',
   'Canadá': 'ca', 'Bosnia y Herzegovina': 'ba', 'Qatar': 'qa', 'Suiza': 'ch',
@@ -16,17 +16,22 @@ const CODES = {
 
 export default function Flag({ country, size = 28 }) {
   const code = CODES[country]
-  const h = Math.round(size * 0.75)
-  if (!code) return <span style={{ fontSize: size * 0.6, fontWeight: 700 }}>{country?.slice(0, 2)?.toUpperCase()}</span>
+  if (!code) return (
+    <span style={{ fontSize: 12, fontWeight: 700, color: '#888', width: size, textAlign: 'center', display: 'inline-block' }}>
+      {country?.slice(0, 2)?.toUpperCase()}
+    </span>
+  )
   return (
-    <img
-      src={`https://flagcdn.com/w${size * 2}/${code}.png`}
-      srcSet={`https://flagcdn.com/w${size * 4}/${code}.png 2x`}
-      alt={country}
-      width={size}
-      height={h}
-      style={{ objectFit: 'cover', borderRadius: 2, display: 'block' }}
-      loading="lazy"
+    <span
+      className={`fi fi-${code}`}
+      style={{
+        fontSize: size,
+        borderRadius: 2,
+        flexShrink: 0,
+        display: 'inline-block',
+        lineHeight: 1,
+      }}
+      title={country}
     />
   )
 }
