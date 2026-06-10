@@ -40,7 +40,9 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
   )].sort()
 
   const shownDates = upcomingDates.slice(0, visibleDates)
-  const todayMatch = MATCHES.find(m => m.date === today) || MATCHES[0]
+  const todayActualMatch = MATCHES.find(m => m.date === today)
+  const todayMatch = todayActualMatch || MATCHES.find(m => m.date >= today) || MATCHES[0]
+  const isToday = !!todayActualMatch
 
   // Lista de partidos pendientes ordenados por fecha+hora para navegar en el modal
   const pendingMatches = MATCHES
@@ -151,9 +153,9 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
         </div>
 
         {/* Partido destacado */}
-        <div className={styles.sectionTitle}>PARTIDO DESTACADO</div>
+        <div className={styles.sectionTitle}>{isToday ? 'PARTIDO DE HOY' : 'PRÓXIMO PARTIDO'}</div>
         <div className={styles.todayBox}>
-          <div className={styles.todayBadge}>HOY</div>
+        {isToday && <div className={styles.todayBadge}>HOY</div>}
           <div className={styles.todayMatch}>
             <div className={styles.todayTeam}>
               <Flag country={todayMatch.home} size={52} />
