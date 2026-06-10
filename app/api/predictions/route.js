@@ -21,7 +21,7 @@ export async function POST(request) {
   if (!match) return NextResponse.json({ error: 'Partido no encontrado' }, { status: 404 })
 
   // Verificar que el partido no empezó aun
-  const matchTime = new Date(`${match.date}T${match.time}:00`)
+  const matchTime = new Date(`${match.date}T${match.time}:00-03:00`)
   if (new Date() >= matchTime) {
     return NextResponse.json({ error: 'El partido ya comenzó' }, { status: 400 })
   }

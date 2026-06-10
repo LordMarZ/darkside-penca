@@ -37,7 +37,7 @@ export default function FixturePage() {
   async function savePrediction(matchId, scoreHome, scoreAway) {
     const { data: { session } } = await supabase.auth.getSession()
     const match = MATCHES.find(m => m.id === matchId)
-    const matchTime = new Date(`${match.date}T${match.time}:00`)
+    const matchTime = new Date(`${match.date}T${match.time}:00-03:00`)
     const isEarly = (matchTime - new Date()) / 3600000 > 24
 
     const payload = { user_id: session.user.id, match_id: matchId, score_home: scoreHome, score_away: scoreAway, is_early: isEarly, submitted_at: new Date().toISOString() }
