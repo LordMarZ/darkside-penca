@@ -28,14 +28,7 @@ const REGLAS = [
     desc: 'Acertás quién gana o que termina empatado, pero no la diferencia.',
     color: '#cd7f32',
   },
-  {
-    icon: '⏰',
-    title: 'PRONOSTICO ANTICIPADO',
-    pts: '+2 puntos extra',
-    desc: 'Si cargás tu pronóstico con más de 24hs de anticipación y acertás algo, ganás 2 puntos extra.',
-    color: '#4a90d9',
-  },
-  {
+    {
     icon: '🔥',
     title: 'RACHA DE EXACTOS',
     pts: '+3, +6, +9... puntos extra',
