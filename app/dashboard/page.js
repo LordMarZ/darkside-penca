@@ -32,7 +32,7 @@ export default function Dashboard() {
   const [loginBonus, setLoginBonus] = useState(null)
   const [visibleDates, setVisibleDates] = useState(2)
 
-  const today = new Date().toISOString().slice(0, 10)
+const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone local del usuario
 
   // Todas las fechas únicas con partidos pendientes — de todos los grupos
   const upcomingDates = [...new Set(

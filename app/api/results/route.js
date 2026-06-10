@@ -1,5 +1,4 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { calcTotalMatchPoints } from '../../../lib/points'
 
@@ -8,29 +7,37 @@ import { calcTotalMatchPoints } from '../../../lib/points'
 export async function POST(request) {
   const { match_id, score_home, score_away, admin_key } = await request.json()
 
-  // Clave admin simple — en produccion usar variable de entorno
   if (admin_key !== process.env.ADMIN_KEY) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
   }
 
-  const cookieStore = cookies()
-  const supabase = createServerClient(
+  // Service role key — bypasea RLS para actualizar perfiles de todos los usuarios
+  const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    { cookies: { get: (n) => cookieStore.get(n)?.value } }
+    process.env.SUPABASE_SERVICE_ROLE_KEY
   )
 
   // Guardar resultado oficial
-  await supabase.from('match_results').upsert({ match_id, score_home, score_away })
+  const { error: resultError } = await supabase
+    .from('match_results')
+    .upsert({ match_id, score_home, score_away })
+
+  if (resultError) {
+    return NextResponse.json({ error: resultError.message }, { status: 500 })
+  }
 
   // Obtener todos los pronosticos de este partido
-  const { data: predictions } = await supabase
+  const { data: predictions, error: predsError } = await supabase
     .from('predictions')
     .select('*, profiles(streak_exact, streak_exact_best, total_pts)')
     .eq('match_id', match_id)
 
+  if (predsError) {
+    return NextResponse.json({ error: predsError.message }, { status: 500 })
+  }
+
   if (!predictions?.length) {
-    return NextResponse.json({ updated: 0 })
+    return NextResponse.json({ updated: 0, match_id, score_home, score_away })
   }
 
   // Calcular y aplicar puntos para cada usuario
@@ -39,20 +46,19 @@ export async function POST(request) {
     const result = { score_home, score_away }
     const streakBefore = pred.profiles?.streak_exact ?? 0
 
-    const { base, early, streak, total, newStreak } = calcTotalMatchPoints({
+    const { base, streak, total, newStreak } = calcTotalMatchPoints({
       pred: { score_home: pred.score_home, score_away: pred.score_away },
       result,
-      isEarly: pred.is_early,
+      isEarly: false,
       streakBefore,
     })
 
     if (total > 0) {
-      // Actualizar prediction con puntos ganados
-      await supabase.from('predictions')
+      await supabase
+        .from('predictions')
         .update({ pts_earned: total })
         .eq('id', pred.id)
 
-      // Actualizar perfil del usuario
       const { data: profile } = await supabase
         .from('profiles')
         .select('total_pts, streak_exact_best')
@@ -65,10 +71,8 @@ export async function POST(request) {
         streak_exact_best: Math.max(profile?.streak_exact_best ?? 0, newStreak),
       }).eq('id', pred.user_id)
 
-      // Log de puntos
       const reasons = []
       if (base > 0) reasons.push(`Base: ${base}pts`)
-      if (early > 0) reasons.push(`Anticipado: +${early}pts`)
       if (streak > 0) reasons.push(`Racha: +${streak}pts`)
 
       await supabase.from('points_log').insert({
@@ -80,8 +84,8 @@ export async function POST(request) {
 
       updated++
     } else {
-      // Si no acerto, resetear racha
-      await supabase.from('profiles')
+      await supabase
+        .from('profiles')
         .update({ streak_exact: 0 })
         .eq('id', pred.user_id)
     }
