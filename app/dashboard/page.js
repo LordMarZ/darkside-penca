@@ -82,12 +82,15 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
   }, [])
 
   async function savePrediction(matchId, scoreHome, scoreAway) {
+  // Asegurar que el perfil existe
+  await supabase.from('profiles').upsert({
+    id: user.id,
+    username: user.user_metadata?.full_name || user.email,
+    avatar_url: user.user_metadata?.avatar_url || null,
+  }, { onConflict: 'id', ignoreDuplicates: true })
+
   const match = MATCHES.find(m => m.id === matchId)
-  const matchTime = new Date(`${match.date}T${match.time}:00-03:00`)
-  if (new Date() >= matchTime) {
-    alert('El partido ya comenzó, no se puede pronosticar')
-    return {}
-  }
+
 
   const { data, error } = await supabase
     .from('predictions')
