@@ -19,6 +19,10 @@ function formatDate(dateStr) {
   return `${DAY_NAMES[d.getDay()]} ${d.getDate()} ${MONTH_NAMES[d.getMonth()]}`
 }
 
+function matchStarted(match) {
+  return new Date() >= new Date(`${match.date}T${match.time}:00-03:00`)
+}
+
 export default function Dashboard() {
   const supabase = createClient()
   const router = useRouter()
@@ -32,9 +36,8 @@ export default function Dashboard() {
   const [loginBonus, setLoginBonus] = useState(null)
   const [visibleDates, setVisibleDates] = useState(2)
 
-const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone local del usuario
+  const today = new Date().toLocaleDateString('en-CA')
 
-  // Todas las fechas únicas con partidos pendientes — de todos los grupos
   const upcomingDates = [...new Set(
     MATCHES.filter(m => m.phase === 'groups' && m.date >= today).map(m => m.date)
   )].sort()
@@ -44,7 +47,6 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
   const todayMatch = todayActualMatch || MATCHES.find(m => m.date >= today) || MATCHES[0]
   const isToday = !!todayActualMatch
 
-  // Lista de partidos pendientes ordenados por fecha+hora para navegar en el modal
   const pendingMatches = MATCHES
     .filter(m => m.phase === 'groups' && m.date >= today)
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
@@ -82,36 +84,37 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
   }, [])
 
   async function savePrediction(matchId, scoreHome, scoreAway) {
-  // Asegurar que el perfil existe
-  await supabase.from('profiles').upsert({
-    id: user.id,
-    username: user.user_metadata?.full_name || user.email,
-    avatar_url: user.user_metadata?.avatar_url || null,
-  }, { onConflict: 'id', ignoreDuplicates: true })
+    const match = MATCHES.find(m => m.id === matchId)
+    if (matchStarted(match)) {
+      alert('El partido ya comenzó, no se puede pronosticar')
+      return {}
+    }
 
-  const match = MATCHES.find(m => m.id === matchId)
+    await supabase.from('profiles').upsert({
+      id: user.id,
+      username: user.user_metadata?.full_name || user.email,
+      avatar_url: user.user_metadata?.avatar_url || null,
+    }, { onConflict: 'id', ignoreDuplicates: true })
 
+    const { data, error } = await supabase
+      .from('predictions')
+      .upsert({
+        user_id: user.id,
+        match_id: matchId,
+        score_home: scoreHome,
+        score_away: scoreAway,
+        submitted_at: new Date().toISOString(),
+      }, { onConflict: 'user_id,match_id' })
+      .select()
+      .single()
 
-  const { data, error } = await supabase
-    .from('predictions')
-    .upsert({
-      user_id: user.id,
-      match_id: matchId,
-      score_home: scoreHome,
-      score_away: scoreAway,
-      submitted_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,match_id' })
-    .select()
-    .single()
-
-  if (error) {
-    alert('Error al guardar: ' + error.message)
-    return {}
+    if (error) {
+      alert('Error al guardar: ' + error.message)
+      return {}
+    }
+    setPredictions(prev => ({ ...prev, [matchId]: data }))
+    return { prediction: data }
   }
-  setPredictions(prev => ({ ...prev, [matchId]: data }))
-  return { prediction: data }
-}
-
 
   async function saveChampion(champion, topScorer) {
     await supabase.from('profiles').update({
@@ -138,7 +141,6 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
           </div>
         )}
 
-        {/* Stats */}
         <div className={styles.statsGrid}>
           <div className={styles.statCard}>
             <div className={styles.statVal}>{profile?.total_pts ?? 0}</div>
@@ -158,7 +160,6 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
           </div>
         </div>
 
-        {/* Champion */}
         <div className={styles.championPromo}>
           <div className={styles.championLeft}>
             <div className={styles.championTitle}>🏆 PRONÓSTICO CAMPEÓN</div>
@@ -173,10 +174,9 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
           </button>
         </div>
 
-        {/* Partido destacado */}
         <div className={styles.sectionTitle}>{isToday ? 'PARTIDO DE HOY' : 'PRÓXIMO PARTIDO'}</div>
         <div className={styles.todayBox}>
-        {isToday && <div className={styles.todayBadge}>HOY</div>}
+          {isToday && <div className={styles.todayBadge}>HOY</div>}
           <div className={styles.todayMatch}>
             <div className={styles.todayTeam}>
               <Flag country={todayMatch.home} size={52} />
@@ -195,24 +195,25 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
               <span className={styles.bigName}>{todayMatch.away}</span>
             </div>
           </div>
-          <button className={styles.predictBtn} onClick={() => setModalMatch(todayMatch)}>
-            {predictions[todayMatch.id] ? 'EDITAR PRONOSTICO' : 'HACER PRONOSTICO'}
-          </button>
+          {!matchStarted(todayMatch) ? (
+            <button className={styles.predictBtn} onClick={() => setModalMatch(todayMatch)}>
+              {predictions[todayMatch.id] ? 'EDITAR PRONOSTICO' : 'HACER PRONOSTICO'}
+            </button>
+          ) : (
+            <div className={styles.startedBadge}>⏱ PARTIDO EN CURSO — PRONÓSTICOS CERRADOS</div>
+          )}
         </div>
 
-        {/* Partidos agrupados por fecha — todos los grupos */}
         <div className={styles.sectionTitle}>PRÓXIMOS PARTIDOS</div>
 
         {upcomingDates.length === 0 ? (
           <div style={{ color:'var(--muted)', textAlign:'center', padding:32 }}>No hay más partidos de grupos pendientes</div>
         ) : (
           shownDates.map(date => {
-            // Todos los partidos de ESA fecha, de todos los grupos
             const dayMatches = MATCHES
               .filter(m => m.date === date && m.phase === 'groups')
               .sort((a, b) => a.time.localeCompare(b.time))
             const predCount = dayMatches.filter(m => predictions[m.id]).length
-
             return (
               <div key={date} className={styles.dayBlock}>
                 <div className={styles.dayHeader}>
@@ -237,7 +238,6 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
           </button>
         )}
 
-        {/* Ranking */}
         <div className={styles.sectionTitle} style={{ marginTop:32 }}>TOP 5 RANKING</div>
         <div className={styles.lbCard}>
           {leaderboard.map((u, i) => (

@@ -2,13 +2,26 @@
 import Flag from './Flag'
 import styles from './MatchCard.module.css'
 
+function matchStarted(match) {
+  return new Date() >= new Date(`${match.date}T${match.time}:00-03:00`)
+}
+
 export default function MatchCard({ match, prediction, onPredict, showDate = true }) {
-  const isOpen = !match.result
+  const started = matchStarted(match)
   const pred = prediction
 
+  function handleClick() {
+    if (started) return  // partido ya empezó — no abrir modal
+    if (onPredict) onPredict(match)
+  }
+
   return (
-    <div className={`${styles.card} ${pred ? styles.predicted : ''}`} onClick={() => isOpen && onPredict && onPredict(match)}>
+    <div
+      className={`${styles.card} ${pred ? styles.predicted : ''} ${started ? styles.started : ''}`}
+      onClick={handleClick}
+    >
       {pred && <span className={styles.checkBadge}>✓</span>}
+      {started && !pred && <span className={styles.lockedBadge}>🔒</span>}
       <div className={styles.inner}>
         <div className={styles.team}>
           <Flag country={match.home} size={28} />
@@ -18,7 +31,7 @@ export default function MatchCard({ match, prediction, onPredict, showDate = tru
           {match.result ? (
             <div className={styles.result}>{match.result.score_home} - {match.result.score_away}</div>
           ) : (
-            <div className={styles.vs}>VS</div>
+            <div className={styles.vs}>{started ? '⏱' : 'VS'}</div>
           )}
           {showDate && <div className={styles.meta}>{match.date.slice(5).replace('-','/')} · {match.time}</div>}
           {pred && <div className={styles.predLabel}>{pred.score_home}-{pred.score_away}</div>}

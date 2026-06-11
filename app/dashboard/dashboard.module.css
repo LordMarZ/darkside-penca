@@ -71,3 +71,15 @@
   .lbName { font-size: 13px; }
   .lbRow { padding: 10px 12px; }
 }
+
+.startedBadge {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 1px;
+  padding: 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  margin-top: 8px;
+}
