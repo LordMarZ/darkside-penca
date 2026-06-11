@@ -82,15 +82,33 @@ const today = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD en timezone l
   }, [])
 
   async function savePrediction(matchId, scoreHome, scoreAway) {
-    const res = await fetch('/api/predictions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ match_id: matchId, score_home: scoreHome, score_away: scoreAway }),
-    })
-    const data = await res.json()
-    if (data.prediction) setPredictions(prev => ({ ...prev, [matchId]: data.prediction }))
-    return data
+  const match = MATCHES.find(m => m.id === matchId)
+  const matchTime = new Date(`${match.date}T${match.time}:00-03:00`)
+  if (new Date() >= matchTime) {
+    alert('El partido ya comenzó, no se puede pronosticar')
+    return {}
   }
+
+  const { data, error } = await supabase
+    .from('predictions')
+    .upsert({
+      user_id: user.id,
+      match_id: matchId,
+      score_home: scoreHome,
+      score_away: scoreAway,
+      submitted_at: new Date().toISOString(),
+    }, { onConflict: 'user_id,match_id' })
+    .select()
+    .single()
+
+  if (error) {
+    alert('Error al guardar: ' + error.message)
+    return {}
+  }
+  setPredictions(prev => ({ ...prev, [matchId]: data }))
+  return { prediction: data }
+}
+
 
   async function saveChampion(champion, topScorer) {
     await supabase.from('profiles').update({
