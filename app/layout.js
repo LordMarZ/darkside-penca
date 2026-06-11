@@ -2,7 +2,19 @@ import './globals.css'
 
 export const metadata = {
   title: 'Darkside Bros — Penca Mundial 2026',
-  description: 'La penca del Mundial de Darkside Bros Café',
+  description: 'Predecí los resultados del Mundial USA·MX·CA 2026 y competi con toda la comunidad Darkside',
+  openGraph: {
+    title: 'Darkside Bros — Penca Mundial 2026',
+    description: 'Predecí · Competí · Ganá',
+    images: [{ url: 'https://darkside-penca.vercel.app/og-image.png', width: 1200, height: 630 }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Darkside Bros — Penca Mundial 2026',
+    description: 'Predecí · Competí · Ganá',
+    images: ['https://darkside-penca.vercel.app/og-image.png'],
+  },
 }
 
 export default function RootLayout({ children }) {
