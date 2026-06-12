@@ -221,7 +221,7 @@ export default function AdminPage() {
                     <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{match.away}</div>
                   </div>
                 </div>
-  
+
                 {isDone ? (
                   <div style={{ textAlign: 'center', fontSize: 13, color: isDone.startsWith('✅') ? '#4caf50' : '#cc1111', padding: '8px', background: isDone.startsWith('✅') ? '#0a1a0a' : '#1a0a0a', borderRadius: 8 }}>{isDone}</div>
                 ) : (
