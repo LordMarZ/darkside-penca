@@ -1,11 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { MATCHES, GROUPS } from '../../data/fixture'
-import Navbar from '../../components/Navbar'
+import Flag from '../../components/Flag'
 
 // Mapeo de nombres ESPN → nombres del fixture
 const ESPN_MAP = {
-  'Mexico': 'México', 'South Korea': 'Corea del Sur', 'Czech Republic': 'Chequia',
+  'Mexico': 'México', 'South Korea': 'Corea del Sur', 'Czech Republic': 'Rep. Checa',
   'South Africa': 'Sudáfrica', 'Canada': 'Canadá', 'Bosnia and Herzegovina': 'Bosnia y Herzegovina',
   'Switzerland': 'Suiza', 'Brazil': 'Brasil', 'Morocco': 'Marruecos', 'Haiti': 'Haití',
   'Scotland': 'Escocia', 'United States': 'Estados Unidos', 'Paraguay': 'Paraguay',
@@ -54,7 +54,6 @@ export default function AdminPage() {
       const data = await res.json()
       setEspnResults(data.matches || [])
 
-      // Pre-cargar scores encontrados
       const newScores = { ...scores }
       const matchesOfDay = MATCHES.filter(m => m.date === date)
 
@@ -76,7 +75,16 @@ export default function AdminPage() {
         }
       }
       setScores(newScores)
-      setFetchMsg(`ESPN: ${data.matches?.length || 0} partidos encontrados`)
+
+      const foundCount = matchesOfDay.filter(match => {
+        return data.matches?.some(e => {
+          const h = normalize(e.home_team)
+          const a = normalize(e.away_team)
+          return (h === match.home && a === match.away) || (h === match.away && a === match.home)
+        })
+      }).length
+
+      setFetchMsg(`ESPN: ${data.matches?.length || 0} partidos encontrados (${foundCount} coinciden con tu fixture)`)
     } catch (err) {
       setFetchMsg('Error al conectar con ESPN')
     }
@@ -148,7 +156,6 @@ export default function AdminPage() {
 
       <div style={{ maxWidth: 720, margin: '32px auto', padding: '0 16px' }}>
 
-        {/* Selector de fecha + ESPN */}
         <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 12, padding: 20, marginBottom: 24, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 10, color: '#444', letterSpacing: 2, marginBottom: 6 }}>FECHA</div>
@@ -171,7 +178,6 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Partidos del día */}
         {matchesOfDay.length === 0 ? (
           <div style={{ textAlign: 'center', color: '#333', padding: 40, fontSize: 14 }}>No hay partidos para esta fecha</div>
         ) : (
@@ -189,8 +195,9 @@ export default function AdminPage() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                  <div style={{ flex: 1, textAlign: 'right' }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{match.homeF} {match.home}</div>
+                  <div style={{ flex: 1, display:'flex', alignItems:'center', justifyContent:'flex-end', gap: 8 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{match.home}</div>
+                    <Flag country={match.home} size={20} />
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -209,11 +216,12 @@ export default function AdminPage() {
                     />
                   </div>
 
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{match.away} {match.awayF}</div>
+                  <div style={{ flex: 1, display:'flex', alignItems:'center', gap: 8 }}>
+                    <Flag country={match.away} size={20} />
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{match.away}</div>
                   </div>
                 </div>
-
+  
                 {isDone ? (
                   <div style={{ textAlign: 'center', fontSize: 13, color: isDone.startsWith('✅') ? '#4caf50' : '#cc1111', padding: '8px', background: isDone.startsWith('✅') ? '#0a1a0a' : '#1a0a0a', borderRadius: 8 }}>{isDone}</div>
                 ) : (

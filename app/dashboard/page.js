@@ -43,9 +43,12 @@ export default function Dashboard() {
   )].sort()
 
   const shownDates = upcomingDates.slice(0, visibleDates)
-  const todayActualMatch = MATCHES.find(m => m.date === today)
-  const todayMatch = todayActualMatch || MATCHES.find(m => m.date >= today) || MATCHES[0]
-  const isToday = !!todayActualMatch
+  const todayMatches = MATCHES.filter(m => m.date === today && m.phase === 'groups')
+  const nextTodayMatch = todayMatches.find(m => !matchStarted(m))
+  const todayMatch = nextTodayMatch
+  || MATCHES.find(m => m.phase === 'groups' && !matchStarted(m) && m.date >= today)
+  || MATCHES[0]
+  const isToday = todayMatch.date === today   
 
   const pendingMatches = MATCHES
     .filter(m => m.phase === 'groups' && m.date >= today)

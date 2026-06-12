@@ -123,7 +123,7 @@ export default function QuizPage() {
               {result.correct >= 9 ? 'MAESTRO MUNDIAL' : result.correct >= 8 ? 'GRAN CONOCEDOR' : result.correct >= 7 ? 'BUEN NIVEL' : 'SEGUI INTENTANDO'}
             </div>
             {result.pts > 0
-              ? <div className={styles.resultPts}>+{result.pts} PUNTOS GANADOS</div>
+             ? <div className={styles.resultPts}>+{result.pts} PUNTOS DE QUIZ (no afecta el ranking)</div>
               : <div className={styles.resultPts} style={{ color: 'var(--muted)' }}>Sin puntos esta vez</div>
             }
             {existingAttempt && <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>Ya habias completado el quiz de hoy</div>}
