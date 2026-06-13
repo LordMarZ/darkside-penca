@@ -2,7 +2,10 @@
 import { useState } from 'react'
 import styles from './ChampionPicker.module.css'
 
-// Equipos principales del Mundial 2026 (candidatos a campeón)
+// Fase de grupos del Mundial 2026 termina el 27/06 — luego de esa fecha
+// no se puede cambiar el pronóstico de campeón/goleador
+const GROUP_STAGE_END = '2026-06-27T23:59:59-03:00'
+
 const TEAMS = [
   { name: 'Argentina', flag: '🇦🇷' },
   { name: 'Brasil', flag: '🇧🇷' },
@@ -22,7 +25,6 @@ const TEAMS = [
   { name: 'Marruecos', flag: '🇲🇦' },
 ]
 
-// Goleadores candidatos
 const SCORERS = [
   'Lionel Messi', 'Kylian Mbappé', 'Erling Haaland', 'Vinicius Jr.',
   'Harry Kane', 'Cristiano Ronaldo', 'Lautaro Martínez', 'Rodrigo',
@@ -35,7 +37,10 @@ export default function ChampionPicker({ current, onSave, onClose }) {
   const [scorer, setScorer] = useState(current?.top_scorer_pick || '')
   const [saving, setSaving] = useState(false)
 
+  const locked = new Date() >= new Date(GROUP_STAGE_END)
+
   async function handleSave() {
+    if (locked) return
     if (!champion) { alert('Elegí un campeón'); return }
     setSaving(true)
     await onSave(champion, scorer)
@@ -48,7 +53,11 @@ export default function ChampionPicker({ current, onSave, onClose }) {
         <button className={styles.close} onClick={onClose}>✕</button>
 
         <div className={styles.title}>PRONÓSTICOS PRE-TORNEO</div>
-        <div className={styles.sub}>Solo podés cambiarlos antes que empiece el Mundial</div>
+        <div className={styles.sub}>
+          {locked
+            ? '🔒 La fase de grupos terminó — ya no se pueden modificar'
+            : 'Solo podés cambiarlos antes que termine la fase de grupos'}
+        </div>
 
         <div className={styles.section}>
           <div className={styles.sectionLabel}>
@@ -59,7 +68,8 @@ export default function ChampionPicker({ current, onSave, onClose }) {
               <button
                 key={t.name}
                 className={`${styles.teamBtn} ${champion === t.name ? styles.selected : ''}`}
-                onClick={() => setChampion(t.name)}
+                onClick={() => !locked && setChampion(t.name)}
+                disabled={locked}
               >
                 <span className={styles.teamFlag}>{t.flag}</span>
                 <span className={styles.teamName}>{t.name}</span>
@@ -76,6 +86,7 @@ export default function ChampionPicker({ current, onSave, onClose }) {
             className={styles.scorerSelect}
             value={scorer}
             onChange={e => setScorer(e.target.value)}
+            disabled={locked}
           >
             <option value="">— Elegí un jugador —</option>
             {SCORERS.map(s => (
@@ -84,9 +95,11 @@ export default function ChampionPicker({ current, onSave, onClose }) {
           </select>
         </div>
 
-        <button className={styles.saveBtn} onClick={handleSave} disabled={saving || !champion}>
-          {saving ? 'GUARDANDO...' : '⚽ CONFIRMAR PRONÓSTICOS'}
-        </button>
+        {!locked && (
+          <button className={styles.saveBtn} onClick={handleSave} disabled={saving || !champion}>
+            {saving ? 'GUARDANDO...' : '⚽ CONFIRMAR PRONÓSTICOS'}
+          </button>
+        )}
       </div>
     </div>
   )

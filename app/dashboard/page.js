@@ -36,7 +36,9 @@ export default function Dashboard() {
   const [loginBonus, setLoginBonus] = useState(null)
   const [visibleDates, setVisibleDates] = useState(2)
 
-  const today = new Date().toLocaleDateString('en-CA')
+// Forzar fecha "hoy" en hora Uruguay (UTC-3), sin depender del timezone del dispositivo
+const nowUY = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Montevideo' }))
+const today = nowUY.toLocaleDateString('en-CA')
 
   const upcomingDates = [...new Set(
     MATCHES.filter(m => m.phase === 'groups' && m.date >= today).map(m => m.date)

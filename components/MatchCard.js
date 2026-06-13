@@ -11,9 +11,12 @@ export default function MatchCard({ match, prediction, onPredict, showDate = tru
   const pred = prediction
 
   function handleClick() {
-    if (started) return  // partido ya empezó — no abrir modal
+    if (started) return
     if (onPredict) onPredict(match)
   }
+
+  // DD/MM en vez de MM/DD
+  const [year, month, day] = match.date.split('-')
 
   return (
     <div
@@ -33,7 +36,7 @@ export default function MatchCard({ match, prediction, onPredict, showDate = tru
           ) : (
             <div className={styles.vs}>{started ? '⏱' : 'VS'}</div>
           )}
-          {showDate && <div className={styles.meta}>{match.date.slice(5).replace('-','/')} · {match.time}</div>}
+          {showDate && <div className={styles.meta}>{day}/{month} · {match.time}</div>}
           {pred && <div className={styles.predLabel}>{pred.score_home}-{pred.score_away}</div>}
           {pred?.pts_earned > 0 && <div className={styles.pts}>+{pred.pts_earned}pts</div>}
         </div>
