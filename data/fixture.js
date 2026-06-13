@@ -52,7 +52,7 @@ export const MATCHES = [
 
   // ─── GRUPO D ───────────────────────────────────────────
   { id: 19, phase: 'groups', group: 'D', home: 'Estados Unidos', homeF: '🇺🇸', away: 'Paraguay',  awayF: '🇵🇾', date: '2026-06-12', time: '22:00', venue: 'SoFi Stadium, Los Ángeles' },
-  { id: 20, phase: 'groups', group: 'D', home: 'Australia',      homeF: '🇦🇺', away: 'Turquía',   awayF: '🇹🇷', date: '2026-06-13', time: '01:00', venue: "Levi's Stadium, San Francisco" },
+  { id: 20, phase: 'groups', group: 'D', home: 'Australia', homeF: '🇦🇺', away: 'Turquía', awayF: '🇹🇷', date: '2026-06-14', time: '01:00', venue: "Levi's Stadium, San Francisco" },
   { id: 21, phase: 'groups', group: 'D', home: 'Estados Unidos', homeF: '🇺🇸', away: 'Australia', awayF: '🇦🇺', date: '2026-06-19', time: '16:00', venue: 'Lumen Field, Seattle' },
   { id: 22, phase: 'groups', group: 'D', home: 'Turquía',        homeF: '🇹🇷', away: 'Paraguay',  awayF: '🇵🇾', date: '2026-06-20', time: '01:00', venue: "Levi's Stadium, San Francisco" },
   { id: 23, phase: 'groups', group: 'D', home: 'Turquía',        homeF: '🇹🇷', away: 'Estados Unidos', awayF: '🇺🇸', date: '2026-06-25', time: '23:00', venue: 'SoFi Stadium, Los Ángeles' },
