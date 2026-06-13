@@ -6,7 +6,8 @@ import { MATCHES } from '../../../../data/fixture'
 // Mapeo de nombres ESPN → nombres del fixture
 const ESPN_MAP = {
   'Mexico': 'México', 'South Korea': 'Corea del Sur', 'Czechia': 'Rep. Checa', 'Czech Republic': 'Rep. Checa',
-  'South Africa': 'Sudáfrica', 'Canada': 'Canadá', 'Bosnia and Herzegovina': 'Bosnia y Herzegovina',
+  'South Africa': 'Sudáfrica', 'Canada': 'Canadá', 'Bosnia-Herzegovina': 'Bosnia y Herzegovina',
+  'Bosnia and Herzegovina': 'Bosnia y Herzegovina',
   'Switzerland': 'Suiza', 'Brazil': 'Brasil', 'Morocco': 'Marruecos', 'Haiti': 'Haití',
   'Scotland': 'Escocia', 'United States': 'Estados Unidos', 'Paraguay': 'Paraguay',
   'Australia': 'Australia', 'Turkey': 'Turquía', 'Germany': 'Alemania', 'Curaçao': 'Curazao',

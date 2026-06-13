@@ -29,7 +29,7 @@ export async function POST() {
   const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10)
   const isConsecutive = lastLogin === yesterday
   const newStreak = isConsecutive ? (profile?.login_streak ?? 0) + 1 : 1
-  const bonus = newStreak >= 2 ? 1 : 0
+  const bonus = 0
 
   const updates = {
     login_streak: newStreak,
