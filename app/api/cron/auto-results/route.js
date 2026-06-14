@@ -33,6 +33,21 @@ async function fetchESPNForDate(date) {
   nextDate.setUTCDate(nextDate.getUTCDate() + 1)
   const nextDateStr = nextDate.toISOString().slice(0, 10).replace(/-/g, '')
 
+  // Día anterior (para partidos de madrugada UY que en UTC cayeron el día anterior)
+const prevDate = new Date(date + 'T12:00:00Z')
+prevDate.setUTCDate(prevDate.getUTCDate() - 1)
+const prevDateStr = prevDate.toISOString().slice(0, 10).replace(/-/g, '')
+
+const [res1, res2, res3] = await Promise.all([
+  fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${prevDateStr}`, { cache: 'no-store' }),
+  fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateStr}`, { cache: 'no-store' }),
+  fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${nextDateStr}`, { cache: 'no-store' }),
+])
+
+const [data0, data1, data2] = await Promise.all([res1.json(), res2.json(), res3.json()])
+const allEvents = [...(data0.events || []), ...(data1.events || []), ...(data2.events || [])]
+
+
   const [res1, res2] = await Promise.all([
     fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateStr}`, { cache: 'no-store' }),
     fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${nextDateStr}`, { cache: 'no-store' }),
