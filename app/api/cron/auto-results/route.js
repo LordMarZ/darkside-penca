@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 import { calcTotalMatchPoints } from '../../../../lib/points'
 import { MATCHES } from '../../../../data/fixture'
 
-// Mapeo de nombres ESPN → nombres del fixture
 const ESPN_MAP = {
   'Mexico': 'México', 'South Korea': 'Corea del Sur', 'Czechia': 'Rep. Checa', 'Czech Republic': 'Rep. Checa',
   'South Africa': 'Sudáfrica', 'Canada': 'Canadá', 'Bosnia-Herzegovina': 'Bosnia y Herzegovina',
@@ -26,34 +25,24 @@ function normalize(name) {
   return ESPN_MAP[name] || name
 }
 
-// Trae partidos de ESPN para una fecha en hora Uruguay (consulta 2 días UTC)
 async function fetchESPNForDate(date) {
   const dateStr = date.replace(/-/g, '')
+
+  const prevDate = new Date(date + 'T12:00:00Z')
+  prevDate.setUTCDate(prevDate.getUTCDate() - 1)
+  const prevDateStr = prevDate.toISOString().slice(0, 10).replace(/-/g, '')
+
   const nextDate = new Date(date + 'T12:00:00Z')
   nextDate.setUTCDate(nextDate.getUTCDate() + 1)
   const nextDateStr = nextDate.toISOString().slice(0, 10).replace(/-/g, '')
 
-  // Día anterior (para partidos de madrugada UY que en UTC cayeron el día anterior)
-const prevDate = new Date(date + 'T12:00:00Z')
-prevDate.setUTCDate(prevDate.getUTCDate() - 1)
-const prevDateStr = prevDate.toISOString().slice(0, 10).replace(/-/g, '')
-
-const [res1, res2, res3] = await Promise.all([
-  fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${prevDateStr}`, { cache: 'no-store' }),
-  fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateStr}`, { cache: 'no-store' }),
-  fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${nextDateStr}`, { cache: 'no-store' }),
-])
-
-const [data0, data1, data2] = await Promise.all([res1.json(), res2.json(), res3.json()])
-const allEvents = [...(data0.events || []), ...(data1.events || []), ...(data2.events || [])]
-
-
-  const [res1, res2] = await Promise.all([
+  const [res0, res1, res2] = await Promise.all([
+    fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${prevDateStr}`, { cache: 'no-store' }),
     fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${dateStr}`, { cache: 'no-store' }),
     fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${nextDateStr}`, { cache: 'no-store' }),
   ])
-  const [data1, data2] = await Promise.all([res1.json(), res2.json()])
-  const allEvents = [...(data1.events || []), ...(data2.events || [])]
+  const [data0, data1, data2] = await Promise.all([res0.json(), res1.json(), res2.json()])
+  const allEvents = [...(data0.events || []), ...(data1.events || []), ...(data2.events || [])]
 
   const seen = new Set()
   const matches = []
@@ -81,7 +70,6 @@ const allEvents = [...(data0.events || []), ...(data1.events || []), ...(data2.e
   return matches.filter(m => m.event_date_uy === date)
 }
 
-// Aplica un resultado: guarda en match_results y calcula puntos de todos los usuarios
 async function applyResult(supabase, match_id, score_home, score_away) {
   await supabase.from('match_results').upsert({ match_id, score_home, score_away })
 
@@ -94,12 +82,10 @@ async function applyResult(supabase, match_id, score_home, score_away) {
 
   let updated = 0
   for (const pred of predictions) {
-    const result = { score_home, score_away }
     const streakBefore = pred.profiles?.streak_exact ?? 0
-
     const { base, streak, total, newStreak } = calcTotalMatchPoints({
       pred: { score_home: pred.score_home, score_away: pred.score_away },
-      result,
+      result: { score_home, score_away },
       isEarly: false,
       streakBefore,
     })
@@ -135,7 +121,6 @@ async function applyResult(supabase, match_id, score_home, score_away) {
 }
 
 export async function GET(request) {
-  // Proteger con un secret para que no lo llame cualquiera
   const auth = request.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
@@ -146,11 +131,9 @@ export async function GET(request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   )
 
-  // Resultados ya cargados
   const { data: existingResults } = await supabase.from('match_results').select('match_id')
   const loadedIds = new Set((existingResults || []).map(r => r.match_id))
 
-  // Partidos de hoy y ayer (hora Uruguay) que ya empezaron y no tienen resultado
   const today = new Date().toLocaleDateString('en-CA')
   const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-CA')
 
@@ -165,7 +148,6 @@ export async function GET(request) {
     return NextResponse.json({ checked: 0, applied: 0, message: 'Nada pendiente' })
   }
 
-  // Buscar resultados ESPN para ambas fechas
   const [espnToday, espnYesterday] = await Promise.all([
     fetchESPNForDate(today),
     fetchESPNForDate(yesterday),
