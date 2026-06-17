@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import styles from './leaderboard.module.css'
 
+const TOP_N = 10
+
 export default function LeaderboardPage() {
   const supabase = createClient()
   const router = useRouter()
@@ -33,6 +35,33 @@ export default function LeaderboardPage() {
 
   if (loading) return <div style={{ display:'flex',alignItems:'center',justifyContent:'center',minHeight:'100vh',color:'var(--muted)',letterSpacing:2 }}>CARGANDO...</div>
 
+  const top10 = lb.slice(0, TOP_N)
+  const myIndex = lb.findIndex(u => u.id === user?.id)
+  const iAmInTop10 = myIndex >= 0 && myIndex < TOP_N
+  const me = myIndex >= 0 ? lb[myIndex] : null
+
+  function renderRow(u, i) {
+    return (
+      <div key={u.id} className={`${styles.row} ${u.id === user?.id ? styles.you : ''}`}>
+        <span className={`${styles.rank} ${i===0?styles.g1:i===1?styles.g2:i===2?styles.g3:''}`}>
+          {medals[i] || i + 1}
+        </span>
+        <div className={styles.userInfo}>
+          {u.avatar_url
+            ? <img src={u.avatar_url} className={styles.avatar} alt="" />
+            : <div className={styles.avatarFb}>{(u.username||'?')[0]}</div>
+          }
+          <div>
+            <div className={styles.username}>{u.username || 'Usuario'}</div>
+            {u.id === user?.id && <div className={styles.youTag}>TU</div>}
+          </div>
+        </div>
+        <span className={styles.streak}>{u.streak_exact_best || 0}</span>
+        <span className={styles.pts}>{u.total_pts}</span>
+      </div>
+    )
+  }
+
   return (
     <>
       <Navbar user={user} />
@@ -46,25 +75,15 @@ export default function LeaderboardPage() {
             <span style={{textAlign:'center'}}>MEJOR RACHA</span>
             <span style={{textAlign:'right'}}>PUNTOS</span>
           </div>
-          {lb.map((u, i) => (
-            <div key={u.id} className={`${styles.row} ${u.id === user?.id ? styles.you : ''}`}>
-              <span className={`${styles.rank} ${i===0?styles.g1:i===1?styles.g2:i===2?styles.g3:''}`}>
-                {medals[i] || i + 1}
-              </span>
-              <div className={styles.userInfo}>
-                {u.avatar_url
-                  ? <img src={u.avatar_url} className={styles.avatar} alt="" />
-                  : <div className={styles.avatarFb}>{(u.username||'?')[0]}</div>
-                }
-                <div>
-                  <div className={styles.username}>{u.username || 'Usuario'}</div>
-                  {u.id === user?.id && <div className={styles.youTag}>TU</div>}
-                </div>
-              </div>
-              <span className={styles.streak}>{u.streak_exact_best || 0}</span>
-              <span className={styles.pts}>{u.total_pts}</span>
-            </div>
-          ))}
+
+          {top10.map((u, i) => renderRow(u, i))}
+
+          {!iAmInTop10 && me && (
+            <>
+              <div className={styles.divider}>···</div>
+              {renderRow(me, myIndex)}
+            </>
+          )}
         </div>
       </main>
       <Footer />
