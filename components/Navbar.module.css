@@ -20,10 +20,10 @@
 .menuBtn {
   display: flex; flex-direction: column; justify-content: center; align-items: center;
   gap: 5px; width: 40px; height: 40px;
-  background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px;
+  background: var(--card2); border: 1px solid var(--border-light); border-radius: 8px;
   cursor: pointer; transition: all 0.15s;
 }
-.menuBtn:hover, .menuBtnOpen { border-color: var(--red); background: var(--red-dim); }
+.menuBtn:hover, .menuBtnOpen { border-color: var(--gold); background: var(--red-dim); }
 .menuLine { display: block; width: 16px; height: 2px; background: #e0e0e0; border-radius: 2px; }
 
 /* Overlay */
@@ -35,7 +35,7 @@
   width: calc(100% - 48px);   /* ~1.5cm de margen izquierdo */
   max-width: 300px;
   height: 100vh;
-  background: #111827; border-left: 1px solid #1f2d3d;
+  background: var(--dark); border-left: 1px solid var(--border);
   z-index: 300; display: flex; flex-direction: column;
   transform: translateX(100%); transition: transform 0.25s ease;
   overflow-y: auto;
@@ -46,21 +46,27 @@
 .panelHeader {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 16px 12px;
-  border-bottom: 1px solid #1f2d3d;
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  position: relative;
 }
-.panelTitle { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #4a5568; }
+.panelHeader::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold-border), var(--gold2), var(--gold-border));
+}
+.panelTitle { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: var(--muted); }
 .panelClose {
   width: 32px; height: 32px;
-  background: #1f2d3d; border: 1px solid #2d3f55; border-radius: 6px;
-  color: #718096; font-size: 16px;
+  background: var(--card2); border: 1px solid var(--border-light); border-radius: 6px;
+  color: var(--muted); font-size: 16px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: all 0.15s; flex-shrink: 0;
 }
 .panelClose:hover { background: var(--red-dim); border-color: var(--red3); color: var(--red2); }
 
 .panelSection { padding: 14px 12px 6px; }
-.panelSectionTitle { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #4a5568; margin-bottom: 8px; padding: 0 4px; }
+.panelSectionTitle { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: var(--muted); margin-bottom: 8px; padding: 0 4px; }
 
 .panelNavLink {
   display: flex; align-items: center; gap: 12px;
@@ -68,13 +74,13 @@
   text-decoration: none; transition: all 0.15s;
   margin-bottom: 2px; border: 1px solid transparent;
 }
-.panelNavLink:hover { background: #1f2d3d; }
-.panelNavActive { background: var(--red-dim); border-color: #2a0a0a; }
+.panelNavLink:hover { background: var(--card2); }
+.panelNavActive { background: var(--red-dim); border-color: var(--gold-border); }
 .panelNavIcon { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; }
 .panelNavLabel { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text); flex: 1; }
-.panelNavDot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+.panelNavDot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
 
-.panelDivider { height: 1px; background: #1f2d3d; margin: 4px 12px; }
+.panelDivider { height: 1px; background: var(--border); margin: 4px 12px; }
 
 .panelApp {
   display: flex; align-items: center; gap: 12px;
@@ -82,19 +88,19 @@
   text-decoration: none; border: 1px solid transparent;
   transition: all 0.15s; cursor: pointer; margin-bottom: 2px;
 }
-.panelApp:not(.panelAppActive):hover { background: #1f2d3d; border-color: #2d3f55; }
-.panelAppActive { background: #1a1f0d; border-color: #3d4a1a; }
+.panelApp:not(.panelAppActive):hover { background: var(--card2); border-color: var(--border-light); }
+.panelAppActive { background: rgba(15, 122, 61, 0.12); border-color: var(--green); }
 .panelIcon { font-size: 18px; flex-shrink: 0; }
 .panelAppInfo { flex: 1; }
-.panelAppLabel { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; color: #e2e8f0; line-height: 1; margin-bottom: 2px; }
-.panelAppSub { font-size: 11px; color: #4a5568; }
-.panelArrow { font-size: 14px; color: #4a5568; }
+.panelAppLabel { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; color: var(--text); line-height: 1; margin-bottom: 2px; }
+.panelAppSub { font-size: 11px; color: var(--muted); }
+.panelArrow { font-size: 14px; color: var(--muted); }
 .panelHere { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--gold); background: var(--gold-dim); border: 1px solid var(--gold-border); padding: 2px 7px; border-radius: 4px; }
 
 .panelFooter { padding: 10px 16px; display: flex; flex-direction: column; gap: 6px; }
-.panelContact { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #718096; }
+.panelContact { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
 
-.panelLogout { margin: 0 12px 20px; background: none; border: 1px solid #2d3748; border-radius: 8px; color: #718096; font-size: 12px; font-weight: 700; letter-spacing: 2px; padding: 11px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.panelLogout { margin: 0 12px 20px; background: none; border: 1px solid var(--border-light); border-radius: 8px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 2px; padding: 11px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
 .panelLogout:hover { color: var(--red2); border-color: var(--red3); }
 
 @media (max-width: 640px) {

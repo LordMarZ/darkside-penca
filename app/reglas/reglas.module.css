@@ -5,7 +5,7 @@
 .subtitle { font-size: 14px; color: #999; margin-top: 8px; }
 
 .section { margin-bottom: 32px; }
-.sectionTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 18px; letter-spacing: 3px; color: var(--red); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+.sectionTitle { font-family: 'Bebas Neue', Impact, cursive; font-size: 18px; letter-spacing: 3px; color: var(--gold); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #222; }
 
 .reglasList { display: flex; flex-direction: column; gap: 10px; }
 
