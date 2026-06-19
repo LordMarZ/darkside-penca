@@ -4,13 +4,14 @@
   font-family: 'Bebas Neue', Impact, cursive;
   font-size: 28px;
   letter-spacing: 4px;
-  color: var(--red);
+  color: var(--gold);
   margin-bottom: 16px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border);
 }
 
-.table { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.table { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; position: relative; }
+.table::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold-border), var(--gold2), var(--gold-border)); z-index: 1; }
 
 .header {
   display: grid;

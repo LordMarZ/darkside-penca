@@ -14,7 +14,7 @@
   text-transform: uppercase;
   transition: all 0.2s;
 }
-.phaseTab:hover, .phaseTab.active { background: var(--red3); border-color: var(--red); color: #fff; }
+.phaseTab:hover, .phaseTab.active { background: var(--red3); border-color: var(--gold); color: #fff; }
 
 .groupTabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
 
@@ -29,17 +29,18 @@
   border-radius: 4px;
   transition: all 0.2s;
 }
-.groupTab:hover, .groupTab.active { background: var(--card); border-color: var(--red3); color: var(--text); }
+.groupTab:hover, .groupTab.active { background: var(--card); border-color: var(--gold); color: var(--text); }
 
 .groupHeader {
   font-family: 'Bebas Neue', Impact, cursive;
   font-size: 22px;
   letter-spacing: 4px;
-  color: var(--red);
+  color: var(--gold);
   margin-bottom: 10px;
 }
 
-.standingsCard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.standingsCard { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; position: relative; }
+.standingsCard::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold-border), var(--gold2), var(--gold-border)); z-index: 1; }
 
 .stRow {
   display: grid;
