@@ -12,7 +12,7 @@ const REGLAS = [
     title: 'MARCADOR EXACTO',
     pts: '+5 puntos',
     desc: 'Acertás el resultado exacto del partido. Ej: predeciste 2-1 y terminó 2-1.',
-    color: '#ffcf40',
+    color: '#ffd54a',
   },
   {
     icon: '📊',
@@ -33,21 +33,21 @@ const REGLAS = [
     title: 'RACHA DE EXACTOS',
     pts: '+3, +6, +9... puntos extra',
     desc: 'Si acertás marcadores exactos consecutivos, ganás puntos extra acumulativos por cada uno de la racha.',
-    color: '#cc1111',
+    color: '#d4112e',
   },
   {
     icon: '🏆',
     title: 'CAMPEÓN DEL MUNDIAL',
     pts: '+10 puntos',
     desc: 'Si elegís el campeón correcto antes que empiece el torneo, ganás 10 puntos al final.',
-    color: '#ffcf40',
+    color: '#ffd54a',
   },
   {
     icon: '⚽',
     title: 'GOLEADOR DEL TORNEO',
     pts: '+5 puntos',
     desc: 'Si elegís el goleador correcto antes que empiece el torneo, ganás 5 puntos al final.',
-    color: '#44cc44',
+    color: '#39d873',
   },
 ]
 

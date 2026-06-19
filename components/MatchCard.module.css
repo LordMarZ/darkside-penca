@@ -9,7 +9,7 @@
   width: 100%;
 }
 .card:hover { background: var(--card2); border-color: var(--red3); }
-.card.predicted { border-color: #4a0a0a; background: #0d0505; }
+.card.predicted { border-color: var(--red3); background: var(--red-dim); }
 
 .checkBadge {
   position: absolute; top: 10px; right: 12px;

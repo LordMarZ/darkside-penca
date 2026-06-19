@@ -65,8 +65,8 @@
 
 .pts {
   font-size: 10px;
-  background: #1a1500;
-  border: 1px solid #3d3000;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
   color: var(--gold);
   padding: 2px 8px;
   border-radius: 4px;
@@ -100,7 +100,7 @@
 }
 
 .teamBtn.selected {
-  background: #1a1500;
+  background: var(--gold-dim);
   border-color: var(--gold);
 }
 

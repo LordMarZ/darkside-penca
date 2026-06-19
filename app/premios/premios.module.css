@@ -29,9 +29,9 @@
 
 .badge {
   display: inline-block;
-  background: var(--red-dim);
-  border: 1px solid var(--red3);
-  color: var(--red2);
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  color: var(--gold2);
   font-family: 'Bebas Neue', Impact, cursive;
   font-size: 16px;
   letter-spacing: 4px;

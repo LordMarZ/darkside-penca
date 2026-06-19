@@ -24,7 +24,10 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <img src="/logo-bros.png" alt="Darkside Bros" className={styles.logoImg} />
+        <div className={styles.logoStage}>
+          <img src="/logo-bros2.png" alt="Darkside Bros" className={`${styles.logoImg} ${styles.logoBase}`} />
+          <img src="/logo-bros.png" alt="" aria-hidden="true" className={`${styles.logoImg} ${styles.logoGlitch}`} />
+        </div>
         <span className={styles.logoSub}>PENCA MUNDIAL 2026</span>
         <h1 className={styles.title}>UNITE A LA OSCURIDAD</h1>
         <p className={styles.desc}>

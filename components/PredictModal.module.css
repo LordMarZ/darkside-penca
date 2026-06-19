@@ -19,7 +19,7 @@
 .modal::before {
   content: '';
   position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--red3), var(--red2), var(--red3));
+  background: linear-gradient(90deg, var(--gold-border), var(--gold2), var(--gold-border));
   border-radius: 12px 12px 0 0;
 }
 
