@@ -39,6 +39,10 @@ export default function AdminPage() {
   const [fetchMsg, setFetchMsg] = useState('')
   const [recomputing, setRecomputing] = useState(false)
   const [recomputeMsg, setRecomputeMsg] = useState('')
+  const [debugUsername, setDebugUsername] = useState('')
+  const [debugLoading, setDebugLoading] = useState(false)
+  const [debugResult, setDebugResult] = useState(null)
+  const [debugError, setDebugError] = useState('')
 
   function handleAuth() {
     if (key.trim()) {
@@ -143,6 +147,29 @@ export default function AdminPage() {
     setRecomputing(false)
   }
 
+  async function debugUser() {
+    if (!debugUsername.trim()) return
+    setDebugLoading(true)
+    setDebugError('')
+    setDebugResult(null)
+    try {
+      const res = await fetch('/api/debug-points', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ admin_key: key, username: debugUsername.trim() }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setDebugResult(data)
+      } else {
+        setDebugError(data.error || 'Error')
+      }
+    } catch {
+      setDebugError('Error de conexión')
+    }
+    setDebugLoading(false)
+  }
+
   const matchesOfDay = MATCHES.filter(m => m.date === date)
 
   if (!authed) {
@@ -195,6 +222,64 @@ export default function AdminPage() {
             </button>
             {recomputeMsg && <div style={{ fontSize: 11, color: recomputeMsg.startsWith('✅') ? '#ffd54a' : '#cc1111', marginTop: 6 }}>{recomputeMsg}</div>}
           </div>
+        </div>
+
+        <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 12, padding: 16, marginBottom: 16 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 10 }}>Ver puntos detallados de un usuario</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <input
+              type="text"
+              placeholder="Nombre de usuario (parcial sirve)"
+              value={debugUsername}
+              onChange={e => setDebugUsername(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && debugUser()}
+              style={{ flex: 1, minWidth: 200, background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 14, outline: 'none' }}
+            />
+            <button
+              onClick={debugUser}
+              disabled={debugLoading}
+              style={{ background: '#1a1a1a', border: '1px solid #555', borderRadius: 8, color: '#ccc', padding: '8px 16px', fontFamily: 'Bebas Neue, Impact, cursive', fontSize: 13, letterSpacing: 1, cursor: 'pointer' }}
+            >
+              {debugLoading ? 'BUSCANDO...' : 'VER DETALLE'}
+            </button>
+          </div>
+
+          {debugError && <div style={{ color: '#cc1111', fontSize: 12, marginTop: 10 }}>{debugError}</div>}
+
+          {debugResult && (
+            <div style={{ marginTop: 16 }}>
+              <div style={{ fontSize: 14, color: '#fff', marginBottom: 4 }}>
+                <strong>{debugResult.profile.username}</strong> — total_pts en perfil: <span style={{ color: '#ffd54a' }}>{debugResult.profile.total_pts}</span>
+              </div>
+              <div style={{ fontSize: 12, color: '#999', marginBottom: 12 }}>
+                Suma de pts_earned guardados: {debugResult.sumStored} · Suma esperada sin racha: {debugResult.sumBaseOnly} · Racha actual: {debugResult.profile.streak_exact} (mejor: {debugResult.profile.streak_exact_best})
+              </div>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ color: '#666', textAlign: 'left' }}>
+                      <th style={{ padding: '4px 8px' }}>Partido</th>
+                      <th style={{ padding: '4px 8px' }}>Predicción</th>
+                      <th style={{ padding: '4px 8px' }}>Resultado</th>
+                      <th style={{ padding: '4px 8px' }}>Pts base esperados</th>
+                      <th style={{ padding: '4px 8px' }}>Pts guardados (con racha)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {debugResult.rows.map(r => (
+                      <tr key={r.match_id} style={{ borderTop: '1px solid #1a1a1a' }}>
+                        <td style={{ padding: '4px 8px', color: '#ccc' }}>{r.teams}</td>
+                        <td style={{ padding: '4px 8px', color: '#ccc' }}>{r.pred}</td>
+                        <td style={{ padding: '4px 8px', color: '#ccc' }}>{r.result ?? 'sin cargar'}</td>
+                        <td style={{ padding: '4px 8px', color: r.base_points ? '#4caf50' : '#666' }}>{r.base_points ?? '—'}</td>
+                        <td style={{ padding: '4px 8px', color: r.pts_earned_stored ? '#ffd54a' : '#666' }}>{r.pts_earned_stored}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
 
         <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 12, padding: 20, marginBottom: 24, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
