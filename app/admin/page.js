@@ -37,6 +37,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState({})
   const [done, setDone] = useState({})
   const [fetchMsg, setFetchMsg] = useState('')
+  const [recomputing, setRecomputing] = useState(false)
+  const [recomputeMsg, setRecomputeMsg] = useState('')
 
   function handleAuth() {
     if (key.trim()) {
@@ -110,7 +112,7 @@ export default function AdminPage() {
       })
       const data = await res.json()
       if (res.ok) {
-        setDone(prev => ({ ...prev, [match.id]: `✅ ${data.updated} jugadores actualizados` }))
+        setDone(prev => ({ ...prev, [match.id]: `✅ ${data.usersUpdated} jugadores recalculados` }))
       } else {
         setDone(prev => ({ ...prev, [match.id]: `❌ ${data.error}` }))
       }
@@ -118,6 +120,27 @@ export default function AdminPage() {
       setDone(prev => ({ ...prev, [match.id]: '❌ Error de conexión' }))
     }
     setLoading(prev => ({ ...prev, [match.id]: false }))
+  }
+
+  async function recomputeAll() {
+    setRecomputing(true)
+    setRecomputeMsg('')
+    try {
+      const res = await fetch('/api/recompute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ admin_key: key }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setRecomputeMsg(`✅ ${data.usersUpdated} usuarios, ${data.predictionsProcessed} pronosticos, ${data.matchesProcessed} partidos`)
+      } else {
+        setRecomputeMsg(`❌ ${data.error}`)
+      }
+    } catch {
+      setRecomputeMsg('❌ Error de conexión')
+    }
+    setRecomputing(false)
   }
 
   const matchesOfDay = MATCHES.filter(m => m.date === date)
@@ -156,6 +179,23 @@ export default function AdminPage() {
       </div>
 
       <div style={{ maxWidth: 720, margin: '32px auto', padding: '0 16px' }}>
+
+        <div style={{ background: '#1a1500', border: '1px solid #3d3000', borderRadius: 12, padding: 16, marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#ffd54a', marginBottom: 2 }}>Recalcular todos los puntos</div>
+            <div style={{ fontSize: 11, color: '#999' }}>Reconstruye total_pts y rachas desde cero. Corre solo, no duplica nada.</div>
+          </div>
+          <div>
+            <button
+              onClick={recomputeAll}
+              disabled={recomputing}
+              style={{ background: '#3d3000', border: '1px solid #ffd54a', borderRadius: 8, color: '#ffd54a', padding: '10px 20px', fontFamily: 'Bebas Neue, Impact, cursive', fontSize: 14, letterSpacing: 2, cursor: 'pointer', whiteSpace: 'nowrap' }}
+            >
+              {recomputing ? 'RECALCULANDO...' : '🔄 RECALCULAR TODO'}
+            </button>
+            {recomputeMsg && <div style={{ fontSize: 11, color: recomputeMsg.startsWith('✅') ? '#ffd54a' : '#cc1111', marginTop: 6 }}>{recomputeMsg}</div>}
+          </div>
+        </div>
 
         <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 12, padding: 20, marginBottom: 24, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
           <div style={{ flex: 1 }}>

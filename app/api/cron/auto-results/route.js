@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { calcTotalMatchPoints } from '../../../../lib/points'
+import { recomputeAllPoints } from '../../../../lib/recompute'
 import { MATCHES } from '../../../../data/fixture'
 
 const ESPN_MAP = {
@@ -70,54 +70,8 @@ async function fetchESPNForDate(date) {
   return matches.filter(m => m.event_date_uy === date)
 }
 
-async function applyResult(supabase, match_id, score_home, score_away) {
+async function saveResult(supabase, match_id, score_home, score_away) {
   await supabase.from('match_results').upsert({ match_id, score_home, score_away })
-
-  const { data: predictions } = await supabase
-    .from('predictions')
-    .select('*, profiles(streak_exact, streak_exact_best, total_pts)')
-    .eq('match_id', match_id)
-
-  if (!predictions?.length) return 0
-
-  let updated = 0
-  for (const pred of predictions) {
-    const streakBefore = pred.profiles?.streak_exact ?? 0
-    const { base, streak, total, newStreak } = calcTotalMatchPoints({
-      pred: { score_home: pred.score_home, score_away: pred.score_away },
-      result: { score_home, score_away },
-      isEarly: false,
-      streakBefore,
-    })
-
-    if (total > 0) {
-      await supabase.from('predictions').update({ pts_earned: total }).eq('id', pred.id)
-
-      const { data: profile } = await supabase
-        .from('profiles').select('total_pts, streak_exact_best').eq('id', pred.user_id).single()
-
-      await supabase.from('profiles').update({
-        total_pts: (profile?.total_pts ?? 0) + total,
-        streak_exact: newStreak,
-        streak_exact_best: Math.max(profile?.streak_exact_best ?? 0, newStreak),
-      }).eq('id', pred.user_id)
-
-      const reasons = []
-      if (base > 0) reasons.push(`Base: ${base}pts`)
-      if (streak > 0) reasons.push(`Racha: +${streak}pts`)
-
-      await supabase.from('points_log').insert({
-        user_id: pred.user_id,
-        pts: total,
-        reason: reasons.join(' | ') + ` (Partido ${match_id})`,
-        match_id,
-      })
-      updated++
-    } else {
-      await supabase.from('profiles').update({ streak_exact: 0 }).eq('id', pred.user_id)
-    }
-  }
-  return updated
 }
 
 export async function GET(request) {
@@ -169,11 +123,18 @@ export async function GET(request) {
       const score_home = flipped ? found.score_away : found.score_home
       const score_away = flipped ? found.score_home : found.score_away
 
-      const updated = await applyResult(supabase, match.id, score_home, score_away)
+      await saveResult(supabase, match.id, score_home, score_away)
       applied++
-      log.push(`${match.home} ${score_home}-${score_away} ${match.away} (${updated} usuarios)`)
+      log.push(`${match.home} ${score_home}-${score_away} ${match.away}`)
     }
   }
 
-  return NextResponse.json({ checked: candidateMatches.length, applied, log })
+  // Un solo recalculo completo al final (idempotente) en vez de ir
+  // sumando incrementalmente partido por partido.
+  let summary = { matchesProcessed: 0, predictionsProcessed: 0, usersUpdated: 0 }
+  if (applied > 0) {
+    summary = await recomputeAllPoints(supabase)
+  }
+
+  return NextResponse.json({ checked: candidateMatches.length, applied, log, ...summary })
 }
