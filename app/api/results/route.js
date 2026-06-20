@@ -30,7 +30,11 @@ export async function POST(request) {
     return NextResponse.json({ error: resultError.message }, { status: 500 })
   }
 
-  const summary = await recomputeAllPoints(supabase)
-
-  return NextResponse.json({ ...summary, match_id, score_home, score_away })
+  try {
+    const summary = await recomputeAllPoints(supabase)
+    return NextResponse.json({ ...summary, match_id, score_home, score_away })
+  } catch (err) {
+    console.error('recompute error:', err)
+    return NextResponse.json({ error: err.message || 'Error desconocido' }, { status: 500 })
+  }
 }

@@ -133,7 +133,12 @@ export async function GET(request) {
   // sumando incrementalmente partido por partido.
   let summary = { matchesProcessed: 0, predictionsProcessed: 0, usersUpdated: 0 }
   if (applied > 0) {
-    summary = await recomputeAllPoints(supabase)
+    try {
+      summary = await recomputeAllPoints(supabase)
+    } catch (err) {
+      console.error('recompute error:', err)
+      return NextResponse.json({ checked: candidateMatches.length, applied, log, error: err.message }, { status: 500 })
+    }
   }
 
   return NextResponse.json({ checked: candidateMatches.length, applied, log, ...summary })

@@ -18,6 +18,11 @@ export async function POST(request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   )
 
-  const summary = await recomputeAllPoints(supabase)
-  return NextResponse.json(summary)
+  try {
+    const summary = await recomputeAllPoints(supabase)
+    return NextResponse.json(summary)
+  } catch (err) {
+    console.error('recompute error:', err)
+    return NextResponse.json({ error: err.message || 'Error desconocido' }, { status: 500 })
+  }
 }
