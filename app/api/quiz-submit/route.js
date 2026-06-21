@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { calcQuizPoints } from '../../../data/quiz'
+import { calcQuizPoints } from '../../../lib/points'
 
 export async function POST(request) {
   const cookieStore = cookies()
