@@ -170,7 +170,7 @@ export default function AdminPage() {
     setDebugLoading(false)
   }
 
-  const matchesOfDay = MATCHES.filter(m => m.date === date)
+  const matchesOfDay = MATCHES.filter(m => m.date === date).sort((a, b) => a.time.localeCompare(b.time))
 
   if (!authed) {
     return (
