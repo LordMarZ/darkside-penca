@@ -8,6 +8,7 @@ import MatchCard from '../../components/MatchCard'
 import PredictModal from '../../components/PredictModal'
 import ChampionPicker from '../../components/ChampionPicker'
 import { MATCHES } from '../../data/fixture'
+import { resolveMatches } from '../../lib/bracket'
 import Flag from '../../components/Flag'
 import styles from './dashboard.module.css'
 
@@ -29,6 +30,7 @@ export default function Dashboard() {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [predictions, setPredictions] = useState({})
+  const [results, setResults] = useState({})
   const [leaderboard, setLeaderboard] = useState([])
   const [modalMatch, setModalMatch] = useState(null)
   const [showChampionPicker, setShowChampionPicker] = useState(false)
@@ -40,19 +42,21 @@ export default function Dashboard() {
 const nowUY = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Montevideo' }))
 const today = nowUY.toLocaleDateString('en-CA')
 
+  const resolvedMatches = resolveMatches(MATCHES, results)
+
   const upcomingDates = [...new Set(
-    MATCHES.filter(m => m.date >= today).map(m => m.date)
+    resolvedMatches.filter(m => m.date >= today).map(m => m.date)
   )].sort()
 
   const shownDates = upcomingDates.slice(0, visibleDates)
-  const todayMatches = MATCHES.filter(m => m.date === today)
+  const todayMatches = resolvedMatches.filter(m => m.date === today)
   const nextTodayMatch = todayMatches.find(m => !matchStarted(m))
   const todayMatch = nextTodayMatch
-  || MATCHES.find(m => !matchStarted(m) && m.date >= today)
-  || MATCHES[0]
+  || resolvedMatches.find(m => !matchStarted(m) && m.date >= today)
+  || resolvedMatches[0]
   const isToday = todayMatch.date === today
 
-  const pendingMatches = MATCHES
+  const pendingMatches = resolvedMatches
     .filter(m => m.date >= today)
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
 
@@ -67,9 +71,10 @@ const today = nowUY.toLocaleDateString('en-CA')
       if (!session) { router.push('/login'); return }
       setUser(session.user)
 
-      const [profRes, predsRes, lbRes] = await Promise.all([
+      const [profRes, predsRes, resultsRes, lbRes] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', session.user.id).single(),
         supabase.from('predictions').select('*').eq('user_id', session.user.id),
+        supabase.from('match_results').select('*'),
         supabase.from('profiles').select('id, username, avatar_url, total_pts').order('total_pts', { ascending: false }).limit(5),
       ])
 
@@ -77,6 +82,9 @@ const today = nowUY.toLocaleDateString('en-CA')
       const predMap = {}
       predsRes.data?.forEach(p => { predMap[p.match_id] = p })
       setPredictions(predMap)
+      const resMap = {}
+      resultsRes.data?.forEach(r => { resMap[r.match_id] = r })
+      setResults(resMap)
       setLeaderboard(lbRes.data || [])
       setLoading(false)
 
@@ -89,9 +97,13 @@ const today = nowUY.toLocaleDateString('en-CA')
   }, [])
 
   async function savePrediction(matchId, scoreHome, scoreAway) {
-    const match = MATCHES.find(m => m.id === matchId)
+    const match = resolvedMatches.find(m => m.id === matchId)
     if (matchStarted(match)) {
       alert('El partido ya comenzó, no se puede pronosticar')
+      return {}
+    }
+    if (match.pending) {
+      alert('Todavía no se conocen los equipos de este partido')
       return {}
     }
 
@@ -200,7 +212,9 @@ const today = nowUY.toLocaleDateString('en-CA')
               <span className={styles.bigName}>{todayMatch.away}</span>
             </div>
           </div>
-          {!matchStarted(todayMatch) ? (
+          {todayMatch.pending ? (
+            <div className={styles.startedBadge}>🕓 EQUIPOS A DEFINIR</div>
+          ) : !matchStarted(todayMatch) ? (
             <button className={styles.predictBtn} onClick={() => setModalMatch(todayMatch)}>
               {predictions[todayMatch.id] ? 'EDITAR PRONOSTICO' : 'HACER PRONOSTICO'}
             </button>
@@ -215,21 +229,22 @@ const today = nowUY.toLocaleDateString('en-CA')
           <div style={{ color:'var(--muted)', textAlign:'center', padding:32 }}>No hay más partidos de grupos pendientes</div>
         ) : (
           shownDates.map(date => {
-            const dayMatches = MATCHES
+            const dayMatches = resolvedMatches
               .filter(m => m.date === date)
               .sort((a, b) => a.time.localeCompare(b.time))
-            const predCount = dayMatches.filter(m => predictions[m.id]).length
+            const predictable = dayMatches.filter(m => !m.pending)
+            const predCount = predictable.filter(m => predictions[m.id]).length
             return (
               <div key={date} className={styles.dayBlock}>
                 <div className={styles.dayHeader}>
                   <span className={styles.dayTitle}>
                     {date === today ? '🔴 HOY — ' : ''}{formatDate(date)}
                   </span>
-                  <span className={styles.dayMeta}>{predCount}/{dayMatches.length} pronosticados</span>
+                  <span className={styles.dayMeta}>{predCount}/{predictable.length} pronosticados</span>
                 </div>
                 <div className={styles.matchList}>
                   {dayMatches.map(m => (
-                    <MatchCard key={m.id} match={m} prediction={predictions[m.id]} onPredict={setModalMatch} />
+                    <MatchCard key={m.id} match={m} prediction={predictions[m.id]} onPredict={!m.pending ? setModalMatch : null} />
                   ))}
                 </div>
               </div>

@@ -3,13 +3,16 @@ import { NextResponse } from 'next/server'
 import { recomputeAllPoints } from '../../../lib/recompute'
 
 // POST /api/results — solo admin puede llamar esto
-// Body: { match_id, score_home, score_away, admin_key }
+// Body: { match_id, score_home, score_away, winner_home, admin_key }
+// winner_home: solo en partidos de eliminacion empatados (definidos por
+// penales) — true si gano el local, false si gano el visitante, null/undefined
+// en cualquier otro caso.
 //
 // Idempotente: guarda el resultado oficial y recalcula TODOS los puntos
 // desde cero (match_results + predictions). Cargar el mismo resultado
 // una o cien veces da siempre el mismo total_pts — no se acumula.
 export async function POST(request) {
-  const { match_id, score_home, score_away, admin_key } = await request.json()
+  const { match_id, score_home, score_away, winner_home, admin_key } = await request.json()
 
   if (admin_key !== process.env.ADMIN_KEY) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
@@ -24,7 +27,7 @@ export async function POST(request) {
   // Guardar resultado oficial
   const { error: resultError } = await supabase
     .from('match_results')
-    .upsert({ match_id, score_home, score_away })
+    .upsert({ match_id, score_home, score_away, winner_home: winner_home ?? null })
 
   if (resultError) {
     return NextResponse.json({ error: resultError.message }, { status: 500 })

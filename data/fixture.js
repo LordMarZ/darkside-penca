@@ -4,6 +4,7 @@
 
 export const PHASES = {
   groups: 'FASE DE GRUPOS',
+  r32: 'DIECISEISAVOS DE FINAL',
   r16: 'OCTAVOS DE FINAL',
   qf: 'CUARTOS DE FINAL',
   sf: 'SEMIFINALES',
@@ -122,21 +123,45 @@ export const MATCHES = [
   { id: 71, phase: 'groups', group: 'L', home: 'Panamá',     homeF: '🇵🇦', away: 'Inglaterra', awayF: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', date: '2026-06-27', time: '18:00', venue: 'MetLife Stadium, Nueva York/NJ' },
   { id: 72, phase: 'groups', group: 'L', home: 'Croacia',    homeF: '🇭🇷', away: 'Ghana',      awayF: '🇬🇭', date: '2026-06-27', time: '18:00', venue: 'Lincoln Financial, Filadelfia' },
 
-  // ─── OCTAVOS DE FINAL (Ronda de 32) ────────────────────
-  { id: 73, phase: 'r16', home: 'Sudáfrica',        homeF: '🇿🇦', away: 'Canadá',              awayF: '🇨🇦', date: '2026-06-28', time: '16:00', venue: 'SoFi Stadium, Los Ángeles' },
-  { id: 74, phase: 'r16', home: 'Brasil',           homeF: '🇧🇷', away: 'Japón',               awayF: '🇯🇵', date: '2026-06-29', time: '14:00', venue: 'NRG Stadium, Houston' },
-  { id: 75, phase: 'r16', home: 'Alemania',         homeF: '🇩🇪', away: 'Paraguay',            awayF: '🇵🇾', date: '2026-06-29', time: '17:30', venue: 'Gillette Stadium, Boston' },
-  { id: 76, phase: 'r16', home: 'Países Bajos',     homeF: '🇳🇱', away: 'Marruecos',           awayF: '🇲🇦', date: '2026-06-29', time: '22:00', venue: 'Estadio BBVA, Monterrey' },
-  { id: 77, phase: 'r16', home: 'Costa de Marfil',  homeF: '🇨🇮', away: 'Noruega',             awayF: '🇳🇴', date: '2026-06-30', time: '14:00', venue: 'AT&T Stadium, Dallas' },
-  { id: 78, phase: 'r16', home: 'Francia',          homeF: '🇫🇷', away: 'Suecia',              awayF: '🇸🇪', date: '2026-06-30', time: '18:00', venue: 'MetLife Stadium, Nueva York/NJ' },
-  { id: 79, phase: 'r16', home: 'México',           homeF: '🇲🇽', away: 'Ecuador',             awayF: '🇪🇨', date: '2026-06-30', time: '22:00', venue: 'Estadio Azteca, CDMX' },
-  { id: 80, phase: 'r16', home: 'Inglaterra',       homeF: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', away: 'RD Congo',            awayF: '🇨🇩', date: '2026-07-01', time: '13:00', venue: 'Mercedes-Benz, Atlanta' },
-  { id: 81, phase: 'r16', home: 'Bélgica',          homeF: '🇧🇪', away: 'Senegal',             awayF: '🇸🇳', date: '2026-07-01', time: '17:00', venue: 'Lumen Field, Seattle' },
-  { id: 82, phase: 'r16', home: 'Estados Unidos',   homeF: '🇺🇸', away: 'Bosnia y Herzegovina',awayF: '🇧🇦', date: '2026-07-01', time: '21:00', venue: "Levi's Stadium, San Francisco" },
-  { id: 83, phase: 'r16', home: 'España',           homeF: '🇪🇸', away: 'Austria',             awayF: '🇦🇹', date: '2026-07-02', time: '16:00', venue: 'SoFi Stadium, Los Ángeles' },
-  { id: 84, phase: 'r16', home: 'Portugal',         homeF: '🇵🇹', away: 'Croacia',             awayF: '🇭🇷', date: '2026-07-02', time: '20:00', venue: 'BMO Field, Toronto' },
-  { id: 85, phase: 'r16', home: 'Suiza',            homeF: '🇨🇭', away: 'Argelia',             awayF: '🇩🇿', date: '2026-07-03', time: '00:00', venue: 'BC Place, Vancouver' },
-  { id: 86, phase: 'r16', home: 'Australia',        homeF: '🇦🇺', away: 'Egipto',              awayF: '🇪🇬', date: '2026-07-03', time: '15:00', venue: 'AT&T Stadium, Dallas' },
-  { id: 87, phase: 'r16', home: 'Argentina',        homeF: '🇦🇷', away: 'Cabo Verde',          awayF: '🇨🇻', date: '2026-07-03', time: '19:00', venue: 'Hard Rock Stadium, Miami' },
-  { id: 88, phase: 'r16', home: 'Colombia',         homeF: '🇨🇴', away: 'Ghana',               awayF: '🇬🇭', date: '2026-07-03', time: '22:30', venue: 'Arrowhead Stadium, Kansas City' },
+  // ─── DIECISEISAVOS DE FINAL (Ronda de 32) ──────────────
+  { id: 73, phase: 'r32', home: 'Sudáfrica',        homeF: '🇿🇦', away: 'Canadá',              awayF: '🇨🇦', date: '2026-06-28', time: '16:00', venue: 'SoFi Stadium, Los Ángeles' },
+  { id: 74, phase: 'r32', home: 'Brasil',           homeF: '🇧🇷', away: 'Japón',               awayF: '🇯🇵', date: '2026-06-29', time: '14:00', venue: 'NRG Stadium, Houston' },
+  { id: 75, phase: 'r32', home: 'Alemania',         homeF: '🇩🇪', away: 'Paraguay',            awayF: '🇵🇾', date: '2026-06-29', time: '17:30', venue: 'Gillette Stadium, Boston' },
+  { id: 76, phase: 'r32', home: 'Países Bajos',     homeF: '🇳🇱', away: 'Marruecos',           awayF: '🇲🇦', date: '2026-06-29', time: '22:00', venue: 'Estadio BBVA, Monterrey' },
+  { id: 77, phase: 'r32', home: 'Costa de Marfil',  homeF: '🇨🇮', away: 'Noruega',             awayF: '🇳🇴', date: '2026-06-30', time: '14:00', venue: 'AT&T Stadium, Dallas' },
+  { id: 78, phase: 'r32', home: 'Francia',          homeF: '🇫🇷', away: 'Suecia',              awayF: '🇸🇪', date: '2026-06-30', time: '18:00', venue: 'MetLife Stadium, Nueva York/NJ' },
+  { id: 79, phase: 'r32', home: 'México',           homeF: '🇲🇽', away: 'Ecuador',             awayF: '🇪🇨', date: '2026-06-30', time: '22:00', venue: 'Estadio Azteca, CDMX' },
+  { id: 80, phase: 'r32', home: 'Inglaterra',       homeF: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', away: 'RD Congo',            awayF: '🇨🇩', date: '2026-07-01', time: '13:00', venue: 'Mercedes-Benz, Atlanta' },
+  { id: 81, phase: 'r32', home: 'Bélgica',          homeF: '🇧🇪', away: 'Senegal',             awayF: '🇸🇳', date: '2026-07-01', time: '17:00', venue: 'Lumen Field, Seattle' },
+  { id: 82, phase: 'r32', home: 'Estados Unidos',   homeF: '🇺🇸', away: 'Bosnia y Herzegovina',awayF: '🇧🇦', date: '2026-07-01', time: '21:00', venue: "Levi's Stadium, San Francisco" },
+  { id: 83, phase: 'r32', home: 'España',           homeF: '🇪🇸', away: 'Austria',             awayF: '🇦🇹', date: '2026-07-02', time: '16:00', venue: 'SoFi Stadium, Los Ángeles' },
+  { id: 84, phase: 'r32', home: 'Portugal',         homeF: '🇵🇹', away: 'Croacia',             awayF: '🇭🇷', date: '2026-07-02', time: '20:00', venue: 'BMO Field, Toronto' },
+  { id: 85, phase: 'r32', home: 'Suiza',            homeF: '🇨🇭', away: 'Argelia',             awayF: '🇩🇿', date: '2026-07-03', time: '00:00', venue: 'BC Place, Vancouver' },
+  { id: 86, phase: 'r32', home: 'Australia',        homeF: '🇦🇺', away: 'Egipto',              awayF: '🇪🇬', date: '2026-07-03', time: '15:00', venue: 'AT&T Stadium, Dallas' },
+  { id: 87, phase: 'r32', home: 'Argentina',        homeF: '🇦🇷', away: 'Cabo Verde',          awayF: '🇨🇻', date: '2026-07-03', time: '19:00', venue: 'Hard Rock Stadium, Miami' },
+  { id: 88, phase: 'r32', home: 'Colombia',         homeF: '🇨🇴', away: 'Ghana',               awayF: '🇬🇭', date: '2026-07-03', time: '22:30', venue: 'Arrowhead Stadium, Kansas City' },
+
+  // ─── OCTAVOS DE FINAL (Ronda de 16) — rivales a definir por resultado ───
+  // homeFrom/awayFrom: id del partido de 16avos cuyo ganador ocupa ese lugar
+  { id: 89, phase: 'r16', homeFrom: 73, awayFrom: 76, date: '2026-07-04', time: '19:00', venue: 'NRG Stadium, Houston' },
+  { id: 90, phase: 'r16', homeFrom: 75, awayFrom: 78, date: '2026-07-04', time: '23:00', venue: 'Lincoln Financial, Filadelfia' },
+  { id: 91, phase: 'r16', homeFrom: 74, awayFrom: 77, date: '2026-07-05', time: '22:00', venue: 'MetLife Stadium, Nueva York/NJ' },
+  { id: 92, phase: 'r16', homeFrom: 79, awayFrom: 80, date: '2026-07-06', time: '02:00', venue: 'Estadio Azteca, CDMX' },
+  { id: 93, phase: 'r16', homeFrom: 84, awayFrom: 83, date: '2026-07-06', time: '21:00', venue: 'AT&T Stadium, Dallas' },
+  { id: 94, phase: 'r16', homeFrom: 82, awayFrom: 81, date: '2026-07-07', time: '02:00', venue: 'Lumen Field, Seattle' },
+  { id: 95, phase: 'r16', homeFrom: 87, awayFrom: 86, date: '2026-07-07', time: '18:00', venue: 'Mercedes-Benz, Atlanta' },
+  { id: 96, phase: 'r16', homeFrom: 85, awayFrom: 88, date: '2026-07-07', time: '22:00', venue: 'BC Place, Vancouver' },
+
+  // ─── CUARTOS DE FINAL — rivales a definir por resultado ─────────────────
+  { id: 97,  phase: 'qf', homeFrom: 90, awayFrom: 89, date: '2026-07-09', time: '22:00', venue: 'Gillette Stadium, Boston' },
+  { id: 98,  phase: 'qf', homeFrom: 93, awayFrom: 94, date: '2026-07-10', time: '21:00', venue: 'SoFi Stadium, Los Ángeles' },
+  { id: 99,  phase: 'qf', homeFrom: 91, awayFrom: 92, date: '2026-07-11', time: '23:00', venue: 'Hard Rock Stadium, Miami' },
+  { id: 100, phase: 'qf', homeFrom: 95, awayFrom: 96, date: '2026-07-12', time: '03:00', venue: 'Arrowhead Stadium, Kansas City' },
+
+  // ─── SEMIFINALES — rivales a definir por resultado ──────────────────────
+  { id: 101, phase: 'sf', homeFrom: 97, awayFrom: 98,  date: '2026-07-14', time: '21:00', venue: 'AT&T Stadium, Dallas' },
+  { id: 102, phase: 'sf', homeFrom: 99, awayFrom: 100, date: '2026-07-15', time: '21:00', venue: 'Mercedes-Benz, Atlanta' },
+
+  // ─── FINAL — rivales a definir por resultado ─────────────────────────────
+  { id: 103, phase: 'final', homeFrom: 101, awayFrom: 102, date: '2026-07-19', time: '21:00', venue: 'MetLife Stadium, Nueva York/NJ' },
 ]

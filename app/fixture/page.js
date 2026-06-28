@@ -8,6 +8,7 @@ import MatchCard from '../../components/MatchCard'
 import Flag from '../../components/Flag'
 import PredictModal from '../../components/PredictModal'
 import { MATCHES, GROUPS, PHASES } from '../../data/fixture'
+import { resolveMatches } from '../../lib/bracket'
 import styles from './fixture.module.css'
 
 function matchStarted(match) {
@@ -90,9 +91,13 @@ export default function FixturePage() {
 
   async function savePrediction(matchId, scoreHome, scoreAway) {
     const { data: { session } } = await supabase.auth.getSession()
-    const match = MATCHES.find(m => m.id === matchId)
+    const match = resolvedMatches.find(m => m.id === matchId)
     if (matchStarted(match)) {
       alert('El partido ya comenzó, no se puede pronosticar')
+      return
+    }
+    if (match.pending) {
+      alert('Todavía no se conocen los equipos de este partido')
       return
     }
 
@@ -107,7 +112,8 @@ export default function FixturePage() {
     if (data) setPredictions(prev => ({ ...prev, [matchId]: data }))
   }
 
-  const phaseMatches = MATCHES.filter(m => m.phase === phase)
+  const resolvedMatches = resolveMatches(MATCHES, results)
+  const phaseMatches = resolvedMatches.filter(m => m.phase === phase)
   const groupKeys = Object.keys(GROUPS)
   const standings = phase === 'groups' ? calcStandings(activeGroup, results) : []
 
@@ -158,19 +164,19 @@ export default function FixturePage() {
 
             <div className={styles.matchesTitle}>PARTIDOS</div>
             <div className={styles.matchList}>
-              {MATCHES.filter(m => m.group === activeGroup).map(m => (
+              {resolvedMatches.filter(m => m.group === activeGroup).map(m => (
                 <MatchCard key={m.id} match={withResult(m)} prediction={predictions[m.id]} onPredict={setModalMatch} />
               ))}
             </div>
           </>
-        )} 
+        )}
 
         {phase !== 'groups' && (
           <div className={styles.matchList}>
             {phaseMatches.length === 0
               ? <div className={styles.tbd}>Los partidos se definiran durante el torneo</div>
               : phaseMatches.map(m => (
-                <MatchCard key={m.id} match={withResult(m)} prediction={predictions[m.id]} onPredict={m.home !== 'TBD' ? setModalMatch : null} />
+                <MatchCard key={m.id} match={withResult(m)} prediction={predictions[m.id]} onPredict={!m.pending ? setModalMatch : null} />
               ))
             }
           </div>

@@ -34,6 +34,9 @@ create table if not exists match_results (
   match_id int primary key,
   score_home int not null,
   score_away int not null,
+  -- Solo se usa cuando score_home=score_away en partidos de eliminacion:
+  -- true si gano el local por penales, false si gano el visitante.
+  winner_home boolean,
   resolved_at timestamptz default now()
 );
 

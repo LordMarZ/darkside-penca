@@ -1,6 +1,8 @@
 'use client'
-import { useState } from 'react'
-import { MATCHES, GROUPS } from '../../data/fixture'
+import { useState, useEffect } from 'react'
+import { MATCHES, GROUPS, PHASES } from '../../data/fixture'
+import { resolveMatches } from '../../lib/bracket'
+import { createClient } from '../../lib/supabase'
 import Flag from '../../components/Flag'
 
 // Mapeo de nombres ESPN → nombres del fixture
@@ -40,7 +42,17 @@ export default function AdminPage() {
   const [recomputing, setRecomputing] = useState(false)
   const [recomputeMsg, setRecomputeMsg] = useState('')
   const [debugUsername, setDebugUsername] = useState('')
+  const [results, setResults] = useState({})
   const [debugLoading, setDebugLoading] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.from('match_results').select('*').then(({ data }) => {
+      const map = {}
+      data?.forEach(r => { map[r.match_id] = r })
+      setResults(map)
+    })
+  }, [])
   const [debugResult, setDebugResult] = useState(null)
   const [debugError, setDebugError] = useState('')
 
@@ -62,7 +74,7 @@ export default function AdminPage() {
       setEspnResults(data.matches || [])
 
       const newScores = { ...scores }
-      const matchesOfDay = MATCHES.filter(m => m.date === date)
+      const matchesOfDay = resolveMatches(MATCHES, results).filter(m => m.date === date)
 
       for (const match of matchesOfDay) {
         const found = data.matches?.find(e => {
@@ -101,6 +113,9 @@ export default function AdminPage() {
   async function loadResult(match) {
     const s = scores[match.id]
     if (s?.home === undefined || s?.away === undefined) return
+    const isDraw = parseInt(s.home) === parseInt(s.away)
+    const needsPenaltyWinner = match.phase !== 'groups' && isDraw
+    if (needsPenaltyWinner && s.winnerHome === undefined) return
 
     setLoading(prev => ({ ...prev, [match.id]: true }))
     try {
@@ -111,6 +126,7 @@ export default function AdminPage() {
           match_id: match.id,
           score_home: parseInt(s.home),
           score_away: parseInt(s.away),
+          winner_home: needsPenaltyWinner ? s.winnerHome : null,
           admin_key: key,
         }),
       })
@@ -170,7 +186,8 @@ export default function AdminPage() {
     setDebugLoading(false)
   }
 
-  const matchesOfDay = MATCHES.filter(m => m.date === date).sort((a, b) => a.time.localeCompare(b.time))
+  const resolvedMatches = resolveMatches(MATCHES, results)
+  const matchesOfDay = resolvedMatches.filter(m => m.date === date).sort((a, b) => a.time.localeCompare(b.time))
 
   if (!authed) {
     return (
@@ -311,13 +328,18 @@ export default function AdminPage() {
             const s = scores[match.id] || {}
             const isDone = done[match.id]
             const isLoading = loading[match.id]
+            const isDraw = s.home !== undefined && s.away !== undefined && s.home !== '' && s.away !== '' && parseInt(s.home) === parseInt(s.away)
+            const needsPenaltyWinner = match.phase !== 'groups' && isDraw
 
             return (
               <div key={match.id} style={{ background: '#0d0d0d', border: `1px solid ${isDone?.startsWith('✅') ? '#1a3a1a' : '#1a1a1a'}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                  <span style={{ background: '#1a0a0a', border: '1px solid #2a0a0a', color: '#cc1111', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 4, letterSpacing: 1 }}>GRP {match.group}</span>
+                  <span style={{ background: '#1a0a0a', border: '1px solid #2a0a0a', color: '#cc1111', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 4, letterSpacing: 1 }}>
+                    {match.group ? `GRP ${match.group}` : PHASES[match.phase]}
+                  </span>
                   <span style={{ fontSize: 12, color: '#444' }}>{match.date} · {match.time}hs UY</span>
                   {s.auto && <span style={{ fontSize: 10, color: '#4caf50', background: '#0a1a0a', border: '1px solid #1a3a1a', padding: '2px 8px', borderRadius: 4 }}>📡 ESPN</span>}
+                  {match.pending && <span style={{ fontSize: 10, color: '#888', background: '#1a1a1a', border: '1px solid #333', padding: '2px 8px', borderRadius: 4 }}>EQUIPOS A DEFINIR</span>}
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
@@ -348,12 +370,29 @@ export default function AdminPage() {
                   </div>
                 </div>
 
+                {!isDone && needsPenaltyWinner && (
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+                    <button
+                      onClick={() => setScores(prev => ({ ...prev, [match.id]: { ...prev[match.id], winnerHome: true } }))}
+                      style={{ flex: 1, background: s.winnerHome === true ? '#cc1111' : '#1a1a1a', border: '1px solid #333', borderRadius: 8, padding: 8, color: '#fff', fontSize: 12, cursor: 'pointer' }}
+                    >
+                      🥅 {match.home} gana por penales
+                    </button>
+                    <button
+                      onClick={() => setScores(prev => ({ ...prev, [match.id]: { ...prev[match.id], winnerHome: false } }))}
+                      style={{ flex: 1, background: s.winnerHome === false ? '#cc1111' : '#1a1a1a', border: '1px solid #333', borderRadius: 8, padding: 8, color: '#fff', fontSize: 12, cursor: 'pointer' }}
+                    >
+                      🥅 {match.away} gana por penales
+                    </button>
+                  </div>
+                )}
+
                 {isDone ? (
                   <div style={{ textAlign: 'center', fontSize: 13, color: isDone.startsWith('✅') ? '#4caf50' : '#cc1111', padding: '8px', background: isDone.startsWith('✅') ? '#0a1a0a' : '#1a0a0a', borderRadius: 8 }}>{isDone}</div>
                 ) : (
                   <button
                     onClick={() => loadResult(match)}
-                    disabled={isLoading || s.home === undefined || s.away === undefined || s.home === '' || s.away === ''}
+                    disabled={isLoading || s.home === undefined || s.away === undefined || s.home === '' || s.away === '' || (needsPenaltyWinner && s.winnerHome === undefined)}
                     style={{ width: '100%', background: s.home !== undefined && s.home !== '' ? '#cc1111' : '#1a1a1a', border: 'none', borderRadius: 8, padding: 10, color: '#fff', fontFamily: 'Bebas Neue, Impact, cursive', fontSize: 14, letterSpacing: 2, cursor: 'pointer', opacity: isLoading ? 0.6 : 1 }}
                   >
                     {isLoading ? 'CARGANDO...' : 'CARGAR RESULTADO'}
