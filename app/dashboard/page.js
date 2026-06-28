@@ -41,19 +41,19 @@ const nowUY = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/M
 const today = nowUY.toLocaleDateString('en-CA')
 
   const upcomingDates = [...new Set(
-    MATCHES.filter(m => m.phase === 'groups' && m.date >= today).map(m => m.date)
+    MATCHES.filter(m => m.date >= today).map(m => m.date)
   )].sort()
 
   const shownDates = upcomingDates.slice(0, visibleDates)
-  const todayMatches = MATCHES.filter(m => m.date === today && m.phase === 'groups')
+  const todayMatches = MATCHES.filter(m => m.date === today)
   const nextTodayMatch = todayMatches.find(m => !matchStarted(m))
   const todayMatch = nextTodayMatch
-  || MATCHES.find(m => m.phase === 'groups' && !matchStarted(m) && m.date >= today)
+  || MATCHES.find(m => !matchStarted(m) && m.date >= today)
   || MATCHES[0]
-  const isToday = todayMatch.date === today   
+  const isToday = todayMatch.date === today
 
   const pendingMatches = MATCHES
-    .filter(m => m.phase === 'groups' && m.date >= today)
+    .filter(m => m.date >= today)
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
 
   function getNextMatch(currentMatchId) {
@@ -216,7 +216,7 @@ const today = nowUY.toLocaleDateString('en-CA')
         ) : (
           shownDates.map(date => {
             const dayMatches = MATCHES
-              .filter(m => m.date === date && m.phase === 'groups')
+              .filter(m => m.date === date)
               .sort((a, b) => a.time.localeCompare(b.time))
             const predCount = dayMatches.filter(m => predictions[m.id]).length
             return (

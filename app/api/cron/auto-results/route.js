@@ -92,7 +92,6 @@ export async function GET(request) {
   const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-CA')
 
   const candidateMatches = MATCHES.filter(m =>
-    m.phase === 'groups' &&
     (m.date === today || m.date === yesterday) &&
     !loadedIds.has(m.id) &&
     new Date() >= new Date(`${m.date}T${m.time}:00-03:00`)

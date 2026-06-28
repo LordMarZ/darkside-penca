@@ -121,4 +121,22 @@ export const MATCHES = [
   { id: 70, phase: 'groups', group: 'L', home: 'Panamá',     homeF: '🇵🇦', away: 'Croacia', awayF: '🇭🇷', date: '2026-06-23', time: '20:00', venue: 'BMO Field, Toronto' },
   { id: 71, phase: 'groups', group: 'L', home: 'Panamá',     homeF: '🇵🇦', away: 'Inglaterra', awayF: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', date: '2026-06-27', time: '18:00', venue: 'MetLife Stadium, Nueva York/NJ' },
   { id: 72, phase: 'groups', group: 'L', home: 'Croacia',    homeF: '🇭🇷', away: 'Ghana',      awayF: '🇬🇭', date: '2026-06-27', time: '18:00', venue: 'Lincoln Financial, Filadelfia' },
+
+  // ─── OCTAVOS DE FINAL (Ronda de 32) ────────────────────
+  { id: 73, phase: 'r16', home: 'Sudáfrica',        homeF: '🇿🇦', away: 'Canadá',              awayF: '🇨🇦', date: '2026-06-28', time: '16:00', venue: 'SoFi Stadium, Los Ángeles' },
+  { id: 74, phase: 'r16', home: 'Brasil',           homeF: '🇧🇷', away: 'Japón',               awayF: '🇯🇵', date: '2026-06-29', time: '14:00', venue: 'NRG Stadium, Houston' },
+  { id: 75, phase: 'r16', home: 'Alemania',         homeF: '🇩🇪', away: 'Paraguay',            awayF: '🇵🇾', date: '2026-06-29', time: '17:30', venue: 'Gillette Stadium, Boston' },
+  { id: 76, phase: 'r16', home: 'Países Bajos',     homeF: '🇳🇱', away: 'Marruecos',           awayF: '🇲🇦', date: '2026-06-29', time: '22:00', venue: 'Estadio BBVA, Monterrey' },
+  { id: 77, phase: 'r16', home: 'Costa de Marfil',  homeF: '🇨🇮', away: 'Noruega',             awayF: '🇳🇴', date: '2026-06-30', time: '14:00', venue: 'AT&T Stadium, Dallas' },
+  { id: 78, phase: 'r16', home: 'Francia',          homeF: '🇫🇷', away: 'Suecia',              awayF: '🇸🇪', date: '2026-06-30', time: '18:00', venue: 'MetLife Stadium, Nueva York/NJ' },
+  { id: 79, phase: 'r16', home: 'México',           homeF: '🇲🇽', away: 'Ecuador',             awayF: '🇪🇨', date: '2026-06-30', time: '22:00', venue: 'Estadio Azteca, CDMX' },
+  { id: 80, phase: 'r16', home: 'Inglaterra',       homeF: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', away: 'RD Congo',            awayF: '🇨🇩', date: '2026-07-01', time: '13:00', venue: 'Mercedes-Benz, Atlanta' },
+  { id: 81, phase: 'r16', home: 'Bélgica',          homeF: '🇧🇪', away: 'Senegal',             awayF: '🇸🇳', date: '2026-07-01', time: '17:00', venue: 'Lumen Field, Seattle' },
+  { id: 82, phase: 'r16', home: 'Estados Unidos',   homeF: '🇺🇸', away: 'Bosnia y Herzegovina',awayF: '🇧🇦', date: '2026-07-01', time: '21:00', venue: "Levi's Stadium, San Francisco" },
+  { id: 83, phase: 'r16', home: 'España',           homeF: '🇪🇸', away: 'Austria',             awayF: '🇦🇹', date: '2026-07-02', time: '16:00', venue: 'SoFi Stadium, Los Ángeles' },
+  { id: 84, phase: 'r16', home: 'Portugal',         homeF: '🇵🇹', away: 'Croacia',             awayF: '🇭🇷', date: '2026-07-02', time: '20:00', venue: 'BMO Field, Toronto' },
+  { id: 85, phase: 'r16', home: 'Suiza',            homeF: '🇨🇭', away: 'Argelia',             awayF: '🇩🇿', date: '2026-07-03', time: '00:00', venue: 'BC Place, Vancouver' },
+  { id: 86, phase: 'r16', home: 'Australia',        homeF: '🇦🇺', away: 'Egipto',              awayF: '🇪🇬', date: '2026-07-03', time: '15:00', venue: 'AT&T Stadium, Dallas' },
+  { id: 87, phase: 'r16', home: 'Argentina',        homeF: '🇦🇷', away: 'Cabo Verde',          awayF: '🇨🇻', date: '2026-07-03', time: '19:00', venue: 'Hard Rock Stadium, Miami' },
+  { id: 88, phase: 'r16', home: 'Colombia',         homeF: '🇨🇴', away: 'Ghana',               awayF: '🇬🇭', date: '2026-07-03', time: '22:30', venue: 'Arrowhead Stadium, Kansas City' },
 ]
