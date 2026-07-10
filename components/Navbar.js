@@ -16,6 +16,7 @@ const NAV_LINKS = [
 
 const UNIVERSE_APPS = [
   { id: 'cuponera', label: 'CUPONERA',     sub: 'Fidelidad & sellos',  icon: '☕', href: 'https://darkside-cafe.vercel.app/tarjeta' },
+  { id: 'menu',     label: 'MENÚ',         sub: 'Dulces, salados y café', icon: '🍽️', href: 'https://darkside-cafe.vercel.app/menu' },
   { id: 'penca',    label: 'PENCA',        sub: 'Pronósticos 2026',    icon: '⚽', href: null },
   { id: 'duomity',  label: 'DUOMITY',      sub: 'Próximamente...',     icon: '🎮', href: null, disabled: true },
   { id: 'geek',     label: 'DUOMITY GEEK', sub: 'Quiz por universos',  icon: '🎯', href: 'https://darkside-duomity-geek.vercel.app/home' },
