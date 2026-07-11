@@ -118,6 +118,8 @@ export default function Navbar({ user }) {
 
         <div className={styles.panelFooter}>
           <div className={styles.panelContact}><span>📍</span> Soriano 1062, Montevideo</div>
+          <a href="https://wa.me/59892211177" target="_blank" rel="noopener noreferrer" className={styles.panelContact}><span>💬</span> 092 211 177</a>
+          <a href="tel:+59829000220" className={styles.panelContact}><span>☎️</span> 2900 0220</a>
           <div className={styles.panelContact}><span>📷</span> @darksidebroscafe</div>
         </div>
 
