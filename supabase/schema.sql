@@ -80,6 +80,40 @@ create policy "Ver quizzes" on quiz_attempts for select using (auth.uid() = user
 create policy "Insertar quiz" on quiz_attempts for insert with check (auth.uid() = user_id);
 create policy "Ver log" on points_log for select using (auth.uid() = user_id);
 
+-- Horario oficial de cada partido (fuente: data/fixture.js), usado por el
+-- trigger de abajo para bloquear pronosticos despues de que el partido arranco.
+create table if not exists match_schedule (
+  match_id int primary key,
+  kickoff_at timestamptz not null
+);
+alter table match_schedule enable row level security;
+create policy "Horarios publicos" on match_schedule for select using (true);
+-- Seed de los 103 partidos: ver migracion "enforce_prediction_deadline"
+-- aplicada directamente en Supabase (incluye los insert values).
+
+-- Trigger: rechaza inserts/updates de pronosticos si el partido ya arranco.
+-- La politica RLS de predictions solo valida auth.uid() = user_id, sin
+-- mirar el horario, asi que sin este trigger un usuario podia escribir
+-- directo a Supabase (bypaseando el chequeo que solo vivia en el frontend)
+-- y seguir cambiando su pronostico horas despues de que el partido arranco.
+create or replace function enforce_prediction_deadline()
+returns trigger as $$
+declare
+  kickoff timestamptz;
+begin
+  select kickoff_at into kickoff from match_schedule where match_id = new.match_id;
+  if kickoff is not null and now() >= kickoff then
+    raise exception 'El partido ya comenzo, no se puede pronosticar';
+  end if;
+  return new;
+end;
+$$ language plpgsql security definer;
+
+drop trigger if exists check_prediction_deadline on predictions;
+create trigger check_prediction_deadline
+  before insert or update on predictions
+  for each row execute procedure enforce_prediction_deadline();
+
 -- Trigger: crear perfil automático al registrarse
 create or replace function public.handle_new_user()
 returns trigger as $$

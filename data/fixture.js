@@ -8,6 +8,7 @@ export const PHASES = {
   r16: 'OCTAVOS DE FINAL',
   qf: 'CUARTOS DE FINAL',
   sf: 'SEMIFINALES',
+  third: 'PARTIDO POR EL 3ER PUESTO',
   final: 'FINAL',
 }
 
@@ -161,6 +162,9 @@ export const MATCHES = [
   // ─── SEMIFINALES — rivales a definir por resultado ──────────────────────
   { id: 101, phase: 'sf', homeFrom: 97, awayFrom: 98,  date: '2026-07-14', time: '21:00', venue: 'AT&T Stadium, Dallas' },
   { id: 102, phase: 'sf', homeFrom: 99, awayFrom: 100, date: '2026-07-15', time: '21:00', venue: 'Mercedes-Benz, Atlanta' },
+
+  // ─── PARTIDO POR EL 3ER PUESTO — perdedores de semifinales ───────────────
+  { id: 104, phase: 'third', homeFrom: 101, awayFrom: 102, loser: true, date: '2026-07-18', time: '18:00', venue: 'Hard Rock Stadium, Miami' },
 
   // ─── FINAL — rivales a definir por resultado ─────────────────────────────
   { id: 103, phase: 'final', homeFrom: 101, awayFrom: 102, date: '2026-07-19', time: '21:00', venue: 'MetLife Stadium, Nueva York/NJ' },

@@ -108,8 +108,9 @@ export default function FixturePage() {
     }, { onConflict: 'id', ignoreDuplicates: true })
 
     const payload = { user_id: session.user.id, match_id: matchId, score_home: scoreHome, score_away: scoreAway, submitted_at: new Date().toISOString() }
-    const { data } = await supabase.from('predictions').upsert(payload, { onConflict: 'user_id,match_id' }).select().single()
+    const { data, error } = await supabase.from('predictions').upsert(payload, { onConflict: 'user_id,match_id' }).select().single()
     if (data) setPredictions(prev => ({ ...prev, [matchId]: data }))
+    else if (error) alert('El partido ya comenzó, no se puede pronosticar')
   }
 
   const resolvedMatches = resolveMatches(MATCHES, results)
