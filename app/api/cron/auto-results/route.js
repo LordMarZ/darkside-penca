@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { recomputeAllPoints } from '../../../../lib/recompute'
 import { MATCHES } from '../../../../data/fixture'
+import { resolveMatches } from '../../../../lib/bracket'
 
 const ESPN_MAP = {
   'Mexico': 'México', 'South Korea': 'Corea del Sur', 'Czechia': 'Rep. Checa', 'Czech Republic': 'Rep. Checa',
@@ -85,27 +86,34 @@ export async function GET(request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   )
 
-  const { data: existingResults } = await supabase.from('match_results').select('match_id')
-  const loadedIds = new Set((existingResults || []).map(r => r.match_id))
+  const { data: existingResultsRows } = await supabase.from('match_results').select('*')
+  const loadedIds = new Set((existingResultsRows || []).map(r => r.match_id))
 
-  const today = new Date().toLocaleDateString('en-CA')
-  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-CA')
+  // Convierte a mapa por id para resolveMatches (resuelve equipos en fases eliminatorias)
+  const resultsMap = {}
+  for (const r of existingResultsRows || []) resultsMap[r.match_id] = r
+  const resolvedMatches = resolveMatches(MATCHES, resultsMap)
 
-  const candidateMatches = MATCHES.filter(m =>
-    (m.date === today || m.date === yesterday) &&
+  const now = new Date()
+  // Busca hasta 7 días atrás para no perder partidos que el cron no detectó en su momento
+  const cutoff = new Date(now.getTime() - 7 * 86400000).toLocaleDateString('en-CA')
+
+  const candidateMatches = resolvedMatches.filter(m =>
+    !m.pending &&
+    m.date >= cutoff &&
+    m.date <= now.toLocaleDateString('en-CA') &&
     !loadedIds.has(m.id) &&
-    new Date() >= new Date(`${m.date}T${m.time}:00-03:00`)
+    now >= new Date(`${m.date}T${m.time}:00-03:00`)
   )
 
   if (candidateMatches.length === 0) {
     return NextResponse.json({ checked: 0, applied: 0, message: 'Nada pendiente' })
   }
 
-  const [espnToday, espnYesterday] = await Promise.all([
-    fetchESPNForDate(today),
-    fetchESPNForDate(yesterday),
-  ])
-  const espnMatches = [...espnToday, ...espnYesterday]
+  // Recolecta ESPN de todas las fechas únicas de los candidatos
+  const uniqueDates = [...new Set(candidateMatches.map(m => m.date))]
+  const espnByDate = await Promise.all(uniqueDates.map(d => fetchESPNForDate(d)))
+  const espnMatches = espnByDate.flat()
 
   let applied = 0
   const log = []
